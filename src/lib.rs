@@ -4,87 +4,67 @@
 use std::collections::HashMap;
 use std::fmt::Debug;
 use std::hash::Hash;
-use std::hash::Hasher;
-
-trait GenericTree<K, V, N = Self>
-    where K : Ord, V : Hash {
-    /// Return a newly created Tree
-    fn new(key : K, val : V) -> Self;
-
-    /// Add a sub tree to the current tree at the current level
-    fn add(&mut self, subtree: Self);
-
-    /// Remove a subtree from the current tree and return ownership of the removed subtree.
-    fn rm<'a>(&mut self, key: K) -> Result<N,()>;
-
-    /// Return a references to the subtree hashmap of the current tree
-    fn children(&self) ->  &HashMap<N,K>;
-
-    /// Return a references to the parent tree of the current tree
-    fn parent(&self) -> Option<&Self>;
-
-    /// Return a a vector of references to the sibling trees of the current tree
-    fn siblings(&self) ->  Vec<&Self>;
-
-    /// Return the degree of the current tree
-    fn degree(&self) -> usize;
-
-    /// Return the height of the current tree
-    fn height(&self) -> usize;
-
-    /// Return the height of the current tree
-    fn depth(&self) -> usize;
-
-    /// Return an unique index/hash value for the root of the current tree
-    fn get_key(&self) -> K;
-
-    /// Return the value of the current tree root
-    fn get_val(&self) -> V;
-}
+use std::hash::Hasher; use std::prelude::v1::Clone;
 
 /// An ObjTree element contains a optional reference to it's parent and a HashMap of it's children
 /// T represents the type of data contained in the ObjTree
 /// K represents the type of the HashMap key i.e. u8, u32 or [u8;32]
 ///
 pub struct ObjTree<K, V>
-    where K: Ord, V: Hash {
+    where K: Ord + Eq + Clone, V: Hash + Clone {
     key: K,
     val: V,
     children: HashMap<ObjTree<K, V>, K>,
-    parent: Box<ObjTree<K, V>>,
+    parent: Option<Box<ObjTree<K, V>>>,
 }
 
-impl<K: Ord + Eq, V: Hash > PartialEq for ObjTree<K, V> {
+impl<K, V> Clone for ObjTree<K, V>
+    where K: Ord + Eq + Clone, V: Hash + Clone {
+    fn clone(&self) -> Self {
+        unimplemented!()
+    }
+
+    fn clone_from(&mut self, source: &Self) {
+        unimplemented!()
+    }
+}
+
+impl<K, V> PartialEq for ObjTree<K, V>
+    where K: Ord + Eq + Clone, V: Hash + Clone {
     fn eq(&self, other: &ObjTree<K, V>) -> bool {
         self.key == other.key
     }
 }
 
-impl<K: Ord + Eq, V: Hash> Eq for ObjTree<K, V> {}
+impl<K, V> Eq for ObjTree<K, V>
+where K: Ord + Eq + Clone, V: Hash + Clone {
+}
 
-impl<K: Ord + Eq, V: Hash > Hash for ObjTree<K, V> {
+impl<K, V> Hash for ObjTree<K, V>
+    where K: Ord + Eq + Clone, V: Hash + Clone {
    fn hash<H: Hasher>(&self, state: &mut H) {
        self.val.hash(state);
    }
 }
 
-impl<'a, K: Debug + Ord + Eq, V: Debug + Hash> GenericTree<K, V> for ObjTree<K, V>
-    where K: Ord, V: Hash {
+impl<'a, K , V> ObjTree<K, V>
+    where K: Ord + Clone, V: Hash + Clone {
     /// Create a new, empty ObjTree
     fn new(key : K, val : V) -> Self
     {
-       ObjTree { key : key, val : val, children: HashMap::new(), parent : Option<Box<ObjTree<K, V>> }
+       ObjTree { key, val, children: HashMap::new(), parent : None }
     }
 
     /// Add a sub tree to the current tree at the current level
     /// The sub tree is consumed by the add function
     fn add(&mut self, subtree: Self) {
-        self.children.insert(subtree, subtree.get_key());
+        let sub_key = subtree.get_key();
+        self.children.insert(subtree, sub_key);
     }
 
     /// Remove a subtree from the current tree and return ownership of the removed subtree.
-    fn rm(&mut self, key: K) -> Result<Self,()> {
-        ()
+    fn split(&mut self, key: K) -> Result<Self,()> {
+        unimplemented!()
     }
 
     /// &Return the map of references to the subtrees of the current tree
@@ -94,24 +74,26 @@ impl<'a, K: Debug + Ord + Eq, V: Debug + Hash> GenericTree<K, V> for ObjTree<K, 
 
     /// Return a references to the parent tree of the current tree
     fn parent(&self) -> Option<&Self> {
-        &self.parent
+        unimplemented!()
     }
 
     /// Return a a vector of references to the sibling trees of the current tree
     fn siblings(&self) ->  Vec<&Self> {
-        &self.parent.children()
+        unimplemented!()
     }
 
     /// Return the degree of the current tree - number of children
     fn degree(&self) -> usize {
-        (&self.children).len()
+        unimplemented!()
     }
 
     /// Return the height of the current tree
     fn height(&self) -> usize {
         match &self.parent {
-            None => 1,
-            p => 1 + p.height()
+            &None => 1,
+            &Some(ref p) => {
+                1 + p.height().clone()
+            }
         }
     }
 
@@ -121,10 +103,10 @@ impl<'a, K: Debug + Ord + Eq, V: Debug + Hash> GenericTree<K, V> for ObjTree<K, 
     }
 
     fn get_key(&self) -> K {
-        return self.key;
+        return self.key.clone();
     }
 
-    fn get_val(&self) -> V {
-        return self.val;
+    fn get_val(&self) -> &V {
+        return &self.val;
     }
 }
