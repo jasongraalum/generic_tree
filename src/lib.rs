@@ -61,10 +61,18 @@ impl<K, V> Debug for ObjTree<K,V>
 #[allow(dead_code)]
 impl<'a, K , V> ObjTree<K, V>
     where K: Ord + Clone, V: Hash + Clone {
-    /// Create a new, empty ObjTree
-    fn new(key : K, val : V) -> Self
+
+    /// Create a new ObjTree with a value and key
+    fn add_key_value_pair(key : K, val : V) -> Self
     {
-       ObjTree { key, val, children: HashMap::new(), parent : None }
+        ObjTree { key: key, val: val, children: HashMap::new(), parent : None }
+    }
+
+    /// Create a new ObjTree with a value and generated key
+    fn add_value(val : V) -> Self
+    {
+        let key: K = ObjTree::hash(val);
+        ObjTree { key: key, val: val, children: HashMap::new(), parent : None }
     }
 
     /// Add a sub tree to the current tree at the current level
@@ -118,9 +126,10 @@ impl<'a, K , V> ObjTree<K, V>
         return self.key.clone();
     }
 
-    fn get_val(&self) -> &V {
-        return &self.val;
+    fn get_val(&self) -> V {
+        return self.val.clone();
     }
+
 }
 
 #[test]
@@ -129,5 +138,5 @@ fn add_tree() {
     let new_key: u32 = 1;
     let tree : ObjTree<u32, i32> =  ObjTree::new(new_key, new_val);
 
-    println!("{:?}", tree);
+    assert_eq!("key: 1 val: 20", format!("{:?}", tree));
 }
