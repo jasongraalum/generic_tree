@@ -2,7 +2,8 @@
 // Crate which defines a hierarchical tree of generic objects
 //
 use std::collections::HashMap;
-use std::fmt::Debug;
+use std::fmt::{Debug,Formatter};
+use std::fmt;
 use std::hash::Hash;
 use std::hash::Hasher; use std::prelude::v1::Clone;
 
@@ -18,6 +19,7 @@ pub struct ObjTree<K, V>
     parent: Option<Box<ObjTree<K, V>>>,
 }
 
+// Very expensive
 impl<K, V> Clone for ObjTree<K, V>
     where K: Ord + Eq + Clone, V: Hash + Clone {
     fn clone(&self) -> Self {
@@ -29,6 +31,7 @@ impl<K, V> Clone for ObjTree<K, V>
     }
 }
 
+// PartialEq is only for self - not for the sub tree.
 impl<K, V> PartialEq for ObjTree<K, V>
     where K: Ord + Eq + Clone, V: Hash + Clone {
     fn eq(&self, other: &ObjTree<K, V>) -> bool {
@@ -47,6 +50,15 @@ impl<K, V> Hash for ObjTree<K, V>
    }
 }
 
+impl<K, V> Debug for ObjTree<K,V>
+    where K: Ord + Eq + Clone + Debug, V: Hash + Clone + Debug {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "key: {:?} val: {:?}", self.key, self.val)
+        //write!("key: {:?} val: {:?},", self.key.fmt(f), self.val.fmt(f))
+    }
+}
+
+#[allow(dead_code)]
 impl<'a, K , V> ObjTree<K, V>
     where K: Ord + Clone, V: Hash + Clone {
     /// Create a new, empty ObjTree
@@ -109,4 +121,13 @@ impl<'a, K , V> ObjTree<K, V>
     fn get_val(&self) -> &V {
         return &self.val;
     }
+}
+
+#[test]
+fn add_tree() {
+    let new_val: i32 = 20;
+    let new_key: u32 = 1;
+    let tree : ObjTree<u32, i32> =  ObjTree::new(new_key, new_val);
+
+    println!("{:?}", tree);
 }
