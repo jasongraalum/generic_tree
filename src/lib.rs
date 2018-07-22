@@ -1,27 +1,78 @@
 // Copyright (c) 2018 Jason Graalum //
 // Crate which defines a hierarchical tree of generic objects
 //
-use std::collections::HashMap;
 use std::fmt::{Debug,Formatter};
 use std::fmt;
-use std::hash::Hash;
-use std::hash::Hasher; use std::prelude::v1::Clone;
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash,Hasher};
+use std::prelude::v1::Clone;
+use std::prelude::v1::Vec;
 
-/// An ObjTree element contains a optional reference to it's parent and a HashMap of it's children
-/// T represents the type of data contained in the ObjTree
-/// K represents the type of the HashMap key i.e. u8, u32 or [u8;32]
-///
-pub struct ObjTree<K, V>
-    where K: Ord + Eq + Clone, V: Hash + Clone {
-    key: K,
+/// Wrap u64 as ObjHash and ObjTreeHash types for future use
+#[derive(Debug,Clone,Hash)]
+pub struct ObjHash(u64);
+
+#[derive(Debug,Clone,Hash)]
+pub struct ObjTreeHash(u64);
+
+/// An ObjNode element contains the data. It needs to include the Clone and Hash traits
+/// It doesn't need the Ord or Eq traits as we will use the Hash of the data for ordering
+/// and comparison
+pub struct ObjNode<V>
+    where V: Hash + Clone + Debug {
     val: V,
-    children: HashMap<ObjTree<K, V>, K>,
-    parent: Option<Box<ObjTree<K, V>>>,
+}
+
+impl<V> Hash for ObjNode<V>
+    where V: Hash + Clone + Debug {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.val.hash(state);
+    }
+}
+
+impl<V> Clone for ObjNode<V>
+    where V: Hash + Clone + Debug {
+    fn clone(&self) -> Self {
+        unimplemented!()
+    }
+
+    fn clone_from(&mut self, source: &Self) {
+        unimplemented!()
+    }
+
+}
+
+impl<V> Debug for ObjNode<V>
+    where V: Hash + Clone + Debug {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{:?}", self.val)
+    }
+}
+
+/// An ObjTree element contains a optional reference to it's parent and a Vector of it's children
+/// T represents the type of data contained in the ObjTree
+/// K represents the type of the hash key i.e. u8, u32 or [u8;32]
+/// The children vector holds tuples of (ObjTree, ObjTreeHash)
+///
+pub struct ObjTree<V>
+    where V: Debug + Clone + Hash {
+    obj: V,
+    obj_hash: ObjHash,
+    tree_hash: ObjTreeHash,
+    children: Vec<ObjTree<V>>,
+    parent: Option<Box<ObjTree<V>>>,
+}
+
+impl<V> Hash for ObjTree<V>
+    where V: Hash + Clone + Debug {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        unimplemented!()
+    }
 }
 
 // Very expensive
-impl<K, V> Clone for ObjTree<K, V>
-    where K: Ord + Eq + Clone, V: Hash + Clone {
+impl<V> Clone for ObjTree<V>
+    where V: Hash + Clone + Debug {
     fn clone(&self) -> Self {
         unimplemented!()
     }
@@ -31,65 +82,45 @@ impl<K, V> Clone for ObjTree<K, V>
     }
 }
 
-// PartialEq is only for self - not for the sub tree.
-impl<K, V> PartialEq for ObjTree<K, V>
-    where K: Ord + Eq + Clone, V: Hash + Clone {
-    fn eq(&self, other: &ObjTree<K, V>) -> bool {
-        self.key == other.key
-    }
-}
-
-impl<K, V> Eq for ObjTree<K, V>
-where K: Ord + Eq + Clone, V: Hash + Clone {
-}
-
-impl<K, V> Hash for ObjTree<K, V>
-    where K: Ord + Eq + Clone, V: Hash + Clone {
-   fn hash<H: Hasher>(&self, state: &mut H) {
-       self.val.hash(state);
-   }
-}
-
-impl<K, V> Debug for ObjTree<K,V>
-    where K: Ord + Eq + Clone + Debug, V: Hash + Clone + Debug {
+impl<V> Debug for ObjTree<V>
+    where V: Hash + Clone + Debug {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "key: {:?} val: {:?}", self.key, self.val)
-        //write!("key: {:?} val: {:?},", self.key.fmt(f), self.val.fmt(f))
+        write!(f, "obj: {:?} obj_hash: {:?} tree_hash: {:?}", self.obj, self.obj_hash, self.tree_hash)
     }
 }
 
 #[allow(dead_code)]
-impl<'a, K , V> ObjTree<K, V>
-    where K: Ord + Clone, V: Hash + Clone {
+impl<'a, V> ObjTree<ObjNode<V>>
+    where V: Hash + Clone + Debug {
+
 
     /// Create a new ObjTree with a value and key
-    fn add_key_value_pair(key : K, val : V) -> Self
+    fn new(obj : ObjNode<V>) -> Self
     {
-        ObjTree { key: key, val: val, children: HashMap::new(), parent : None }
-    }
+        let mut hasher = DefaultHasher::new();
+        obj.hash(&mut hasher);
+        let obj_hash = ObjHash(hasher.finish());
 
-    /// Create a new ObjTree with a value and generated key
-    fn add_value(val : V) -> Self
-    {
-        let key: K = ObjTree::hash(val);
-        ObjTree { key: key, val: val, children: HashMap::new(), parent : None }
+        //let tree_hash = calculate_tree_hash(&obj_hash);
+        let tree_hash = ObjTreeHash(0);
+        ObjTree { obj, obj_hash, tree_hash, children: Vec::new(), parent : None }
     }
 
     /// Add a sub tree to the current tree at the current level
     /// The sub tree is consumed by the add function
     fn add(&mut self, subtree: Self) {
-        let sub_key = subtree.get_key();
-        self.children.insert(subtree, sub_key);
+        self.children.push(subtree);
+        self.tree_hash = self.calculate_tree_hash(&self.obj_hash);
     }
 
     /// Remove a subtree from the current tree and return ownership of the removed subtree.
-    fn split(&mut self, key: K) -> Result<Self,()> {
+    fn split(&mut self, key: ObjNode<V>) -> Result<Self,()> {
         unimplemented!()
     }
 
     /// &Return the map of references to the subtrees of the current tree
-    fn children(&self) ->  &HashMap<ObjTree<K, V>,K> {
-        &(self.children)
+    fn children(&self) ->  &Vec<ObjTree<ObjNode<V>>> {
+        return &(self.children);
     }
 
     /// Return a references to the parent tree of the current tree
@@ -119,15 +150,28 @@ impl<'a, K , V> ObjTree<K, V>
 
     /// Return the height of the current tree
     fn depth(&self) -> usize {
-        0
+        unimplemented!()
     }
 
-    fn get_key(&self) -> K {
-        return self.key.clone();
+    fn get_tree_hash(&self) -> &ObjTreeHash {
+        return &self.tree_hash;
     }
 
-    fn get_val(&self) -> V {
-        return self.val.clone();
+    fn get_obj_hash(&self) -> &ObjHash {
+        return &self.obj_hash;
+    }
+
+    fn get_val(&self) -> &ObjNode<V> {
+        return &self.obj;
+    }
+
+    fn calculate_tree_hash(&self, obj_hash: &ObjHash) -> ObjTreeHash {
+        let mut s = DefaultHasher::new();
+        for ref child in &self.children {
+            let val = child.obj_hash.0.clone();
+            s.write_u64(val);
+        }
+        ObjTreeHash(s.finish())
     }
 
 }
@@ -136,7 +180,9 @@ impl<'a, K , V> ObjTree<K, V>
 fn add_tree() {
     let new_val: i32 = 20;
     let new_key: u32 = 1;
-    let tree : ObjTree<u32, i32> =  ObjTree::new(new_key, new_val);
+    let new_node =  ObjNode {val : new_val};
+    let tree : ObjTree<ObjNode<i32>> =  ObjTree::new(new_node);
+    println!("{:?}", tree);
 
     assert_eq!("key: 1 val: 20", format!("{:?}", tree));
 }
