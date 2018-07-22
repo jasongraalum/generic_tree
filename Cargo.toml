@@ -1,0 +1,6 @@
+[package]
+name = "generic_tree"
+version = "0.1.0"
+authors = ["Jason Graalum <jasongraalum@gmail.com>"]
+
+[dependencies]
