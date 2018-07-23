@@ -19,8 +19,16 @@ pub struct ObjTreeHash(u64);
 /// It doesn't need the Ord or Eq traits as we will use the Hash of the data for ordering
 /// and comparison
 pub struct ObjNode<V>
-    where V: Hash + Clone + Debug {
+    where V: Ord + PartialEq + Hash + Clone + Debug {
     val: V,
+    children: Vec<ObjNode<V>>,
+}
+
+impl<V> PartialEq for ObjNode<V>
+    where V: PartialEq {
+    fn eq(&self, other: &Rhs) -> bool {
+        self.val == other.val
+    }
 }
 
 impl<V> Hash for ObjNode<V>
