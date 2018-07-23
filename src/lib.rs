@@ -85,7 +85,11 @@ impl<V> Clone for ObjTree<V>
 impl<V> Debug for ObjTree<V>
     where V: Hash + Clone + Debug {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "obj: {:?} obj_hash: {:?} tree_hash: {:?}", self.obj, self.obj_hash, self.tree_hash)
+        writeln!(f, "obj: {:?} obj_hash: {:?} tree_hash: {:?}", self.obj, self.obj_hash, self.tree_hash);
+        for ref child in &self.children {
+            child.fmt(f);
+        }
+        write!(f,"")
     }
 }
 
@@ -178,11 +182,15 @@ impl<'a, V> ObjTree<ObjNode<V>>
 
 #[test]
 fn add_tree() {
-    let new_val: i32 = 20;
-    let new_key: u32 = 1;
-    let new_node =  ObjNode {val : new_val};
-    let tree : ObjTree<ObjNode<i32>> =  ObjTree::new(new_node);
-    println!("{:?}", tree);
+    let new_node1 =  ObjNode {val : 20};
+    let new_node2 =  ObjNode {val : 30};
+    let new_node3 =  ObjNode {val : 40};
+    let mut tree1: ObjTree<ObjNode<i32>> =  ObjTree::new(new_node1);
+    let mut tree2 : ObjTree<ObjNode<i32>> =  ObjTree::new(new_node2);
+    let tree3 : ObjTree<ObjNode<i32>> =  ObjTree::new(new_node3);
+    tree2.add(tree3);
+    tree1.add(tree2);
+    println!("{:?}", tree1);
 
-    assert_eq!("key: 1 val: 20", format!("{:?}", tree));
+    assert_eq!("obj: 20 obj_hash: ObjHash(17869338426324682920) tree_hash: ObjTreeHash(0)", format!("{:?}", tree1));
 }
