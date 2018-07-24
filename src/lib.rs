@@ -37,7 +37,10 @@ impl<V> Clone for TreeNode<V>
 impl<V> Debug for TreeNode<V>
     where V: Ord + PartialEq + Clone + Copy + Debug {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{:?}", self.val)
+        for c in &self.children {
+            write!(f,"{:?}",c);
+        }
+        write!(f, "{:?}\n", &self.val)
     }
 }
 
@@ -107,8 +110,9 @@ fn add_tree() {
     let mut new_node1 : TreeNode<u32> =  TreeNode::new(10);
     let mut new_node2 : TreeNode<u32> =  TreeNode::new(20);
     let mut new_node3 : TreeNode<u32> =  TreeNode::new(30);
-    new_node1.push(new_node2);
+    new_node2.add(new_node3);
+    new_node1.add(new_node2);
     println!("{:?}", new_node1);
 
-    assert_eq!("obj: 20 obj_hash: ObjHash(17869338426324682920) tree_hash: ObjTreeHash(0)", format!("{:?}", new_node1));
+    assert_eq!("30\n20\n10\n", format!("{:?}", new_node1));
 }
