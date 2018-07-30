@@ -1,118 +1,163 @@
 // Copyright (c) 2018 Jason Graalum //
 // Crate which defines a hierarchical tree of generic objects
 //
-use std::fmt::{Debug,Formatter};
-use std::fmt;
-use std::prelude::v1::Clone;
-use std::prelude::v1::Vec;
 
-/// An TreeNode element contains the data. It needs to include the Clone traits
-///  Design decision needed - do we include a path back up the tree??
-/// Comment out parent for now to get past reference lifetime issues!
-pub struct TreeNode<V>
-    where V: Ord + PartialEq + Clone + Copy + Debug {
-    val: V,
-    children: Vec<TreeNode<V>>,
-    //parent: &'a TreeNode<V>,
-}
+use std::fmt::Debug;
+///  Generic Search Tree
+///
+///  Defines SearchTree trait which implements Iter, IntoIter, and IterMut
+///  Also implements Debug, Clone/Copy, Eq/Partial, Ord
+///
+///  Example:  Binary Search Tree
+///
+///  A binary search tree would implement SearchTree with node owning
+///  zero, one or two additional nodes. It would implement the methods of
+///  SearchTree - insert, remove, slice, split, find, iter
+///
+///
+///
+///
+//trait SearchTree<V> : Iterator + IntoIterator
+trait SearchTree<V>
+    where V : Debug + Copy + Clone + Ord + PartialEq {
+    /// Return a newly created Tree
+    fn new(val : V) -> Self;
 
-impl<V> PartialEq for TreeNode<V>
-    where V: Ord + PartialEq + Clone + Copy + Debug {
-    fn eq(&self, other: &Self) -> bool {
-        self.val == other.val
-    }
-}
-
-impl<V> Clone for TreeNode<V>
-    where V: Ord + PartialEq + Clone + Copy + Debug {
-    fn clone(&self) -> Self {
-        unimplemented!()
-    }
-
-    fn clone_from(&mut self, source: &Self) {
-        unimplemented!()
-    }
-}
-
-impl<V> Debug for TreeNode<V>
-    where V: Ord + PartialEq + Clone + Copy + Debug {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        for c in &self.children {
-            write!(f,"{:?}",c);
-        }
-        write!(f, "{:?}\n", &self.val)
-    }
-}
-
-#[allow(dead_code)]
-impl<V> TreeNode<V>
-    where V: Ord + PartialEq + Clone + Copy + Debug {
-
-    /// Create a new ObjTree with a value and key
-    fn new(obj : V) -> Self
-    {
-        TreeNode { val:  obj, children: Vec::new() }
-    }
-
-    /// Add a sub tree to the current tree at the current level
-    /// The sub tree is consumed by the add function
-    fn add(&mut self, subtree: Self) {
-        self.children.push(subtree);
-    }
+    /// insert a node, which could be a full tree, to the current tree at the current level
+    fn insert(&mut self, node_val: V);
 
     /// Remove a subtree from the current tree and return ownership of the removed subtree.
-    fn split(&mut self, key: TreeNode<V>) -> Result<Self,()> {
+    fn remove(&mut self);
+
+    /// Return the degree of the current tree
+    fn degree(&self) -> usize;
+
+    /// Return the height of the current tree
+    fn height(&self) -> usize;
+
+    /// Return the height of the current tree
+    fn depth(&self) -> usize;
+
+    /// Return the value of the current tree root
+    fn get_val(&self) -> &V;
+
+    /// Find a node by value
+    fn find(&self, val: &V) -> Option<&Self>;
+
+    /// Return a slice(reference) of the subtree
+    fn slice(&self) -> Option<&Self>;
+
+    /// Return a slice(reference) of the subtree
+    fn slice_by_value(&self, &V) -> Option<&Self>;
+
+    /// Return ownership of the subtree
+    //fn split_by_value(&mut self, &V) -> Option<Self>;
+
+    fn iter(&self) -> &Self;
+
+    fn into_iter(&mut self) -> Self;
+
+    fn iter_mut(&mut self) -> Self;
+}
+///
+///
+///
+///
+///
+///
+/// A BST is an implementation of a SearchTree
+struct BST<V> {
+    val: V,
+    right : Option<Box<BST<V>>>,
+    left : Option<Box<BST<V>>>,
+    depth : usize,
+}
+
+pub struct IntoIter<V>(BST<V>);
+
+/*
+impl<V> BST<V> {
+    pub fn into_iter(self) -> IntoIter {
+        IntoIter(self)
+    }
+}
+*/
+
+impl<V> SearchTree<V> for BST<V>
+    where V : Debug + Copy + Clone + Ord + PartialEq {
+
+    fn new(val: V) -> Self {
+        BST { val, right : None, left : None, depth : 0 }
+    }
+
+    /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
+    fn insert(&mut self, new_val: V) {
+        if self.val == new_val {
+            return
+        }
+        let target_node = if self.val > new_val { &mut self.left } else { &mut self.right };
+        match target_node {
+            &mut Some(ref mut subnode) => subnode.insert(new_val),
+            &mut None => {
+                let new_node = BST::new(new_val);
+                let boxed_node = Some(Box::new(new_node));
+                *target_node = boxed_node;
+            }
+        }
+    }
+
+    fn remove(&mut self) {
         unimplemented!()
     }
 
-    /// &Return the map of references to the subtrees of the current tree
-    fn children(&self) ->  &Vec<TreeNode<V>> {
-        return &(self.children);
-    }
-
-    /// Return a a vector of references to the sibling trees of the current tree
-    fn siblings(&self) ->  Vec<&Self> {
-        unimplemented!()
-    }
-
-    /// Return the degree of the current tree - number of children
     fn degree(&self) -> usize {
         unimplemented!()
     }
 
-    /*
-    Add back in once parent is included in TreeNode
-    /// Return the height of the current tree
     fn height(&self) -> usize {
-        match &self.parent {
-            &None => 1,
-            &Some(ref p) => {
-                1 + p.height().clone()
-            }
-        }
+        unimplemented!()
     }
-    */
 
-    /// Return the height of the current tree
     fn depth(&self) -> usize {
         unimplemented!()
     }
 
     fn get_val(&self) -> &V {
-        return &self.val;
+        &self.val }
+
+    fn find(&self, val: &V) -> Option<&Self> {
+        unimplemented!()
+    }
+
+    fn slice(&self) -> Option<&Self> {
+        unimplemented!()
+    }
+
+    fn slice_by_value(&self, _: &V) -> Option<&Self> {
+        unimplemented!()
+    }
+
+    //fn split_by_value(&mut self, _: &V) -> Self {
+    //    unimplemented!()
+   // }
+
+    fn iter(&self) -> &Self {
+        unimplemented!()
+    }
+
+    fn into_iter(&mut self) -> Self {
+        unimplemented!()
+    }
+
+    fn iter_mut(&mut self) -> Self {
+        unimplemented!()
     }
 
 
 }
 
 #[test]
-fn add_tree() {
-    let mut new_node1 : TreeNode<u32> =  TreeNode::new(10);
-    let mut new_node2 : TreeNode<u32> =  TreeNode::new(20);
-    let mut new_node3 : TreeNode<u32> =  TreeNode::new(30);
-    new_node2.add(new_node3);
-    new_node1.add(new_node2);
-    println!("{:?}", new_node1);
-
-    assert_eq!("30\n20\n10\n", format!("{:?}", new_node1));
+fn add_node() {
+    let new_node : BST<i32> = BST::new(10);
+    assert_eq!(&10, new_node.get_val());
 }
