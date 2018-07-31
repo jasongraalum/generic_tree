@@ -29,29 +29,8 @@ trait SearchTree<V>
     /// Remove a subtree from the current tree and return ownership of the removed subtree.
     fn remove(&mut self);
 
-    /// Return the degree of the current tree
-    fn degree(&self) -> usize;
-
-    /// Return the height of the current tree
-    fn height(&self) -> usize;
-
-    /// Return the height of the current tree
-    fn depth(&self) -> usize;
-
     /// Return the value of the current tree root
     fn get_val(&self) -> &V;
-
-    /// Find a node by value
-    fn find(&self, val: &V) -> Option<&Self>;
-
-    /// Return a slice(reference) of the subtree
-    fn slice(&self) -> Option<&Self>;
-
-    /// Return a slice(reference) of the subtree
-    fn slice_by_value(&self, &V) -> Option<&Self>;
-
-    /// Return ownership of the subtree
-    //fn split_by_value(&mut self, &V) -> Option<Self>;
 
     fn iter(&self) -> &Self;
 
@@ -75,10 +54,31 @@ struct BST<V> {
 
 pub struct IntoIter<V>(BST<V>);
 
-/*
 impl<V> BST<V> {
-    pub fn into_iter(self) -> IntoIter {
+    pub fn into_iter(self) -> IntoIter<V> {
         IntoIter(self)
+    }
+
+    fn take_right(&mut self) -> Option<Box<Self>>
+    {
+        let mut new_right = self.right.take();
+        self.right=None;
+        return new_right;
+    }
+
+    fn take_left(&mut self) -> Option<Box<Self>>
+    {
+        let mut new_left = self.left.take();
+        self.left=None;
+        return new_left;
+    }
+}
+
+/*
+impl<V> Iterator for IntoIter<V> {
+    type Item = T;
+    fn next(&mut self) -> Option<Self::Item> {
+        // access fields of a tuple struct numerically
     }
 }
 */
@@ -110,36 +110,8 @@ impl<V> SearchTree<V> for BST<V>
         unimplemented!()
     }
 
-    fn degree(&self) -> usize {
-        unimplemented!()
-    }
-
-    fn height(&self) -> usize {
-        unimplemented!()
-    }
-
-    fn depth(&self) -> usize {
-        unimplemented!()
-    }
-
     fn get_val(&self) -> &V {
         &self.val }
-
-    fn find(&self, val: &V) -> Option<&Self> {
-        unimplemented!()
-    }
-
-    fn slice(&self) -> Option<&Self> {
-        unimplemented!()
-    }
-
-    fn slice_by_value(&self, _: &V) -> Option<&Self> {
-        unimplemented!()
-    }
-
-    //fn split_by_value(&mut self, _: &V) -> Self {
-    //    unimplemented!()
-   // }
 
     fn iter(&self) -> &Self {
         unimplemented!()
@@ -152,8 +124,6 @@ impl<V> SearchTree<V> for BST<V>
     fn iter_mut(&mut self) -> Self {
         unimplemented!()
     }
-
-
 }
 
 #[test]
@@ -164,5 +134,5 @@ fn add_node() {
     assert_eq!(&10, new_node.get_val());
     assert_eq!(&7, new_node.left.unwrap().get_val());
     assert_eq!(&13, new_node.right.unwrap().get_val());
-
 }
+
