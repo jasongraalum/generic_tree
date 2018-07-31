@@ -158,6 +158,11 @@ impl<V> SearchTree<V> for BST<V>
 
 #[test]
 fn add_node() {
-    let new_node : BST<i32> = BST::new(10);
+    let mut new_node : BST<i32> = BST::new(10);
+    new_node.insert(7);
+    new_node.insert(13);
     assert_eq!(&10, new_node.get_val());
+    assert_eq!(&7, new_node.left.unwrap().get_val());
+    assert_eq!(&13, new_node.right.unwrap().get_val());
+
 }
