@@ -32,11 +32,24 @@ trait SearchTree<V>
     /// Return the value of the current tree root
     fn get_val(&self) -> &V;
 
-    fn iter(&self) -> &Self;
+    fn into_iter_postorder(mut self) -> Self;
 
-    fn into_iter(&mut self) -> Self;
+    /*
+    fn into_iter_preorder(mut self) -> Self;
+    fn into_iter_inorder(mut self) -> Self;
+    */
 
-    fn iter_mut(&mut self) -> Self;
+    /*
+    fn iter_postorder(&self) -> &Self;
+    fn iter_preorder(&self) -> &Self;
+    fn iter_inorder(&self) -> &Self;
+    */
+
+    /*
+    fn iter_mut_postorder(&mut self) -> &mut Self;
+    fn iter_mut_preorder(&mut self) -> &mut Self;
+    fn iter_mut_inorder(&mut self) -> &mut Self;
+    */
 }
 ///
 ///
@@ -52,11 +65,11 @@ struct BST<V> {
     depth : usize,
 }
 
-pub struct IntoIter<V>(BST<V>);
+pub struct IntoIter_Post<V>(BST<V>);
 
 impl<V> BST<V> {
-    pub fn into_iter(self) -> IntoIter<V> {
-        IntoIter(self)
+    pub fn into_iter_postorder(mut self) -> IntoIter_Post<V> {
+        IntoIter_Post(self)
     }
 
     fn take_right(&mut self) -> Option<Box<Self>>
@@ -71,6 +84,23 @@ impl<V> BST<V> {
         let mut new_left = self.left.take();
         self.left=None;
         return new_left;
+    }
+
+    fn take_left_most(&mut self) -> Option<Box<Self>>
+    {
+        match (&mut self.left,&mut self.right) {
+            (None, None) => self,
+            (None, Some(mut r)) => { self.r = None; r.take_left_most() },
+            (Some(mut l),_) => { self.left = None; l.take_left_most() },
+        }
+    }
+}
+
+impl<T> Iterator for IntoIter_Post<T> {
+    type Item = T;
+    fn next(&mut self) -> Option<Self::Item> {
+        let node = self.remove_left_most();
+        return node;
     }
 }
 
@@ -113,17 +143,21 @@ impl<V> SearchTree<V> for BST<V>
     fn get_val(&self) -> &V {
         &self.val }
 
+    /*
     fn iter(&self) -> &Self {
         unimplemented!()
     }
+    */
 
-    fn into_iter(&mut self) -> Self {
-        unimplemented!()
+    fn into_iter_postorder(self) -> IntoIter<V> {
+        IntoIter(self)
     }
 
+    /*
     fn iter_mut(&mut self) -> Self {
         unimplemented!()
     }
+    */
 }
 
 #[test]
