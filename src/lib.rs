@@ -6,53 +6,6 @@ use std::fmt::Debug;
 use self::BST::*;
 ///  Generic Search Tree
 ///
-///  Defines SearchTree trait which implements Iter, IntoIter, and IterMut
-///  Also implements Debug, Clone/Copy, Eq/Partial, Ord
-///
-///  Example:  Binary Search Tree
-///
-///  A binary search tree would implement SearchTree with node owning
-///  zero, one or two additional nodes. It would implement the methods of
-///  SearchTree - insert, remove, slice, split, find, iter
-///
-///
-///
-///
-//trait SearchTree<V> : Iterator + IntoIterator
-//trait SearchTree<V>
-//    where V : Debug + Copy + Clone + Ord + PartialEq {
-//    /// Return a newly created Tree
-//    fn new(val : V) -> Self;
-//
-//    /// insert a node, which could be a full tree, to the current tree at the current level
-//    fn insert(&mut self, node_val: V);
-//
-//    /// Remove a subtree from the current tree and return ownership of the removed subtree.
-//    fn remove(&mut self);
-//
-//    /// Return the value of the current tree root
-//    fn get_val(&self) -> &V;
-//
-//    fn iter (&self) ->
-    /*
-    fn into_iter_preorder(mut self) -> Self;
-    fn into_iter_inorder(mut self) -> Self;
-    */
-
-    /*
-    fn iter_postorder(&self) -> &Self;
-    fn iter_preorder(&self) -> &Self;
-    fn iter_inorder(&self) -> &Self;
-    */
-
-    /*
-    fn iter_mut_postorder(&mut self) -> &mut Self;
-    fn iter_mut_preorder(&mut self) -> &mut Self;
-    fn iter_mut_inorder(&mut self) -> &mut Self;
-    */
-
-
-
 
 enum BST<V> {
     Empty,
