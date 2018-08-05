@@ -152,18 +152,27 @@ impl <V> BST<V>
         }
     }
 
+    fn peek(&self) -> Option<&V> {
+        match self {
+            &Empty => None, 
+            &NonEmpty(ref n) => Some(&n.val),
+        }
+    }
+
 }
 
 #[test]
-//fn add_node() {
-//    let mut tree : BST<i32> = BST::new(10);
-//    tree.insert(7);
-//    tree.insert(13);
-//    assert_eq!(&10, tree.get_val());
-//    assert_eq!(&7, tree.left.unwrap().get_val());
-//    assert_eq!(&13, tree.right.unwrap().get_val());
-//
-//}
+fn add_node() {
+    let mut tree : BST<i32> = BST::new();
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    assert_eq!(tree.peek(), Some(&8));
+}
 
 #[test]
 fn iterator_test (){
