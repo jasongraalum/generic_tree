@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Jason Graalum //
+// Copyright (c) 2018 Jason Graalum & Nathan Reed
 // Crate which defines a hierarchical tree of generic objects
 //
 
