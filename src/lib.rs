@@ -26,28 +26,46 @@ struct BST_node<V> {
 ///
 ///
 struct BST_post_iter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
-    iter_stack: Vec<&'a BST_node<V>>
+    iter_stack: Vec<(&'a BST_node<V>,bool)>
 }
 
 impl <'a, V: 'a> BST_post_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
-    fn push_leftmost (&mut self, mut tree: &'a BST<V>) {
+    fn push_leftmost_thenright (&mut self, mut tree: &'a BST<V>) {
         while let NonEmpty(ref node) = *tree {
-            self.iter_stack.push(node);
-            tree = &node.left;
+            println!("Tree: {:?}",node.val);
+            self.iter_stack.push((node, false));
+            // If left, set tree to left else if right, set tree to right
+            match (&node.left, &node.right) {
+                (&Empty, &NonEmpty(_)) => tree = &node.right,
+                (_,_) => tree = &node.left,
+            }
         }
+    }
+
+    fn push_node(&mut self, node : &'a BST_node<V>) {
+        println!("Node: {:?}",node.val);
+        self.iter_stack.push((node, true));
     }
 }
 // Iterator for Post-Order
 impl<'a, V> Iterator for BST_post_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     type Item = &'a V;
     fn next(&mut self) -> Option<&'a V> {
-        let node = match self.iter_stack.pop() {
+        let (node, _) = match self.iter_stack.pop() {
             Some(n) => n,
             None => return None,
         };
+        match self.iter_stack.pop() {
+            Some((n,v)) =>  {
+                self.push_node(&n);
+                if v == false {
+                    self.push_leftmost_thenright(&n.right);
+                }
+            },
+            None => return None,
+        }
 
-        self.push_leftmost(&node.right);
-
+        println!("Popping: {:?}", &node.val);
         Some(&node.val)
     }
 }
@@ -93,6 +111,34 @@ impl<'a, V> Iterator for BST_pre_iter<'a, V> where V : Debug + Copy + Clone + Or
     }
 }
 
+struct BST_in_order_iter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
+    iter_stack: Vec<&'a BST_node<V>>
+}
+
+impl <'a, V: 'a> BST_in_order_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+    fn push_leftmost (&mut self, mut tree: &'a BST<V>) {
+        while let NonEmpty(ref node) = *tree {
+            self.iter_stack.push(node);
+            tree = &node.left;
+        }
+    }
+}
+// Iterator for In-Order
+impl<'a, V> Iterator for BST_in_order_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+    type Item = &'a V;
+    // pop top of stack and return value, push left and then right nodes if they exist
+    fn next(&mut self) -> Option<&'a V> {
+        let node = match self.iter_stack.pop() {
+            Some(n) => n,
+            None => return None,
+        };
+
+        self.push_leftmost(&node.right);
+
+        Some(&node.val)
+    }
+}
+
 
 
 //++++++++++++++++++++++++++++++++++IMPL-BST+++++++++++++++++++++++++++++++++++++
@@ -106,7 +152,7 @@ impl <'a, V> BST <V>
 
     fn iter_post_order(& self) -> BST_post_iter<V> {
         let mut iter = BST_post_iter { iter_stack: Vec::new()};
-        iter.push_leftmost(self);
+        iter.push_leftmost_thenright(self);
         iter
     }
 
@@ -114,6 +160,12 @@ impl <'a, V> BST <V>
     fn iter_pre_order(& self) -> BST_pre_iter<V> {
         let mut iter = BST_pre_iter { iter_stack: Vec::new()};
         iter.push_top(self);
+        iter
+    }
+    // Pushed reference to top node
+    fn iter_in_order(& self) -> BST_in_order_iter<V> {
+        let mut iter = BST_in_order_iter { iter_stack: Vec::new()};
+        iter.push_leftmost(self);
         iter
     }
 
@@ -175,7 +227,7 @@ fn post_iterator_test (){
     tree.insert(7);
 
     for i in 0..3 {
-        let mut node_vec: Vec<i32> = vec![1,6,7,8,10,13,20];
+        let mut node_vec: Vec<i32> = vec![1,7,6,10,20,13,8];
         let vec_reverse = node_vec.reverse();
         for node in tree.iter_post_order() {
             assert_eq!(node, &node_vec.pop().unwrap());
@@ -203,3 +255,23 @@ fn pre_iterator_test (){
     }
 }
 
+#[test]
+fn in_order_iterator_test (){
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    for i in 0..3 {
+        let mut node_vec: Vec<i32> = vec![1,6,7,8,10,13,20];
+        let vec_reverse = node_vec.reverse();
+        for node in tree.iter_in_order() {
+            assert_eq!(node, &node_vec.pop().unwrap());
+        }
+    }
+}
