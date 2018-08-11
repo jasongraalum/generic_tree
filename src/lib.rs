@@ -23,8 +23,8 @@ struct BSTNode<V> {
     depth : usize,
 }
 
-///BinTreeIter
 ///
+///BinTreeIter
 ///
 struct BSTPostIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
     iter_stack: Vec<(&'a BSTNode<V>, bool)>
@@ -33,7 +33,6 @@ struct BSTPostIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
 impl <'a, V: 'a> BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     fn push_leftmost_thenright (&mut self, mut tree: &'a BST<V>) {
         while let NonEmpty(ref node) = *tree {
-            println!("Tree: {:?}",node.val);
             self.iter_stack.push((node, false));
             // If left, set tree to left else if right, set tree to right
             match (&node.left, &node.right) {
@@ -44,7 +43,6 @@ impl <'a, V: 'a> BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord + Parti
     }
 
     fn push_node(&mut self, node : &'a BSTNode<V>) {
-        println!("Node: {:?}",node.val);
         self.iter_stack.push((node, true));
     }
 }
@@ -66,7 +64,6 @@ impl<'a, V> Iterator for BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord
             None => return None,
         }
 
-        println!("Popping: {:?}", &node.val);
         Some(&node.val)
     }
 }
