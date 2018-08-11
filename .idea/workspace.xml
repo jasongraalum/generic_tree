@@ -9,8 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Working Pre-Order Traversal">
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -37,12 +36,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="rs" value="20799" />
+          <entry key="rs" value="27330" />
+          <entry key="txt" value="31" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Rust" value="20799" />
+          <entry key="PLAIN_TEXT" value="31" />
+          <entry key="Rust" value="27330" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -74,11 +75,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/lib.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1411">
-              <caret line="79" column="16" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
+            <state relative-caret-position="2910">
+              <caret line="251" column="41" selection-start-line="251" selection-start-column="41" selection-end-line="251" selection-end-column="41" />
               <folding>
-                <element signature="e#2610#2611#0" expanded="true" />
-                <element signature="e#2630#2631#0" expanded="true" />
+                <element signature="e#4204#4205#0" expanded="true" />
+                <element signature="e#4224#4225#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -129,7 +130,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="39" />
     <option name="y" value="33" />
-    <option name="width" value="1525" />
+    <option name="width" value="1731" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
@@ -161,7 +162,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534015079396" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534023298125" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -198,18 +199,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test add_node" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test in_order_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib add_node -- --exact" />
+      <option name="command" value="test --package generic_tree --lib in_order_iterator_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="Test into_iterator_test_consume" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test inorder_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib into_iterator_test_consume -- --exact" />
+      <option name="command" value="test --package generic_tree --lib inorder_iterator_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -225,9 +226,9 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="Test lib" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test post_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib &quot;&quot;" />
+      <option name="command" value="test --package generic_tree --lib post_iterator_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -269,18 +270,18 @@
     <list>
       <item itemvalue="Cargo Command.build" />
       <item itemvalue="Cargo Command.Test iterator_test" />
-      <item itemvalue="Cargo Command.Test add_node" />
-      <item itemvalue="Cargo Command.Test lib" />
-      <item itemvalue="Cargo Command.Test into_iterator_test_consume" />
       <item itemvalue="Cargo Command.Test pre_iterator_test" />
+      <item itemvalue="Cargo Command.Test inorder_iterator_test" />
+      <item itemvalue="Cargo Command.Test in_order_iterator_test" />
+      <item itemvalue="Cargo Command.Test post_iterator_test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Cargo Command.Test pre_iterator_test" />
+        <item itemvalue="Cargo Command.Test in_order_iterator_test" />
+        <item itemvalue="Cargo Command.Test post_iterator_test" />
+        <item itemvalue="Cargo Command.Test inorder_iterator_test" />
         <item itemvalue="Cargo Command.Test iterator_test" />
-        <item itemvalue="Cargo Command.Test add_node" />
-        <item itemvalue="Cargo Command.Test into_iterator_test_consume" />
-        <item itemvalue="Cargo Command.Test lib" />
       </list>
     </recent_temporary>
   </component>
@@ -308,7 +309,7 @@
       <workItem from="1533484260447" duration="3870000" />
       <workItem from="1533493382388" duration="7028000" />
       <workItem from="1533769699808" duration="597000" />
-      <workItem from="1534007314779" duration="8186000" />
+      <workItem from="1534007314779" duration="14489000" />
     </task>
     <task id="LOCAL-00001" summary="Check point - with use of new Trait&#10;&#10;New step is removing the Trait">
       <created>1532280363609</created>
@@ -380,17 +381,24 @@
       <option name="project" value="LOCAL" />
       <updated>1534014348331</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Working Pre-Order Traversal">
+      <created>1534016212771</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1534016212771</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96968000" />
+    <option name="totallyTimeSpent" value="103271000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="39" y="33" width="1525" height="1047" extended-state="0" />
+    <frame x="39" y="33" width="1731" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07552259" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.06631143" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Learn" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -400,13 +408,13 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49624687" visible="true" weight="0.3390558" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49624687" weight="0.3916309" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893504" weight="0.22189055" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893504" visible="true" weight="0.22103004" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5037531" side_tool="true" weight="0.26283988" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.42040184" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -447,7 +455,8 @@
     <MESSAGE value="Simplified Object Node" />
     <MESSAGE value="Moved original lib.rs to wip directory so that we can restart with a reduced TreeNode object." />
     <MESSAGE value="Update to lib.rs to reduce to ObjNode&#10;&#10;Working code with single test&#10;Checking in wip/lib.rs to save old world" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to lib.rs to reduce to ObjNode&#10;&#10;Working code with single test&#10;Checking in wip/lib.rs to save old world" />
+    <MESSAGE value="Working Pre-Order Traversal" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working Pre-Order Traversal" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Cargo.toml">
@@ -473,11 +482,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1411">
-          <caret line="79" column="16" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
+        <state relative-caret-position="2910">
+          <caret line="251" column="41" selection-start-line="251" selection-start-column="41" selection-end-line="251" selection-end-column="41" />
           <folding>
-            <element signature="e#2610#2611#0" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
+            <element signature="e#4204#4205#0" expanded="true" />
+            <element signature="e#4224#4225#0" expanded="true" />
           </folding>
         </state>
       </provider>

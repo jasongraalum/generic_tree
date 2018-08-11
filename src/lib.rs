@@ -3,19 +3,19 @@
 
 use std::fmt::Debug;
 use self::BST::*;
-use std::mem;
+//
 ///  Generic Search Tree
 ///
 
 enum BST<V> {
     Empty,
-    NonEmpty(Box<BST_node<V>>),
+    NonEmpty(Box<BSTNode<V>>),
 }
 
 ///
 ///
 /// A BST is an implementation of a SearchTree
-struct BST_node<V> {
+struct BSTNode<V> {
     val: V,
     right : BST<V>,
     left : BST<V>,
@@ -25,11 +25,11 @@ struct BST_node<V> {
 ///BinTreeIter
 ///
 ///
-struct BST_post_iter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
-    iter_stack: Vec<(&'a BST_node<V>,bool)>
+struct BSTPostIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
+    iter_stack: Vec<(&'a BSTNode<V>, bool)>
 }
 
-impl <'a, V: 'a> BST_post_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+impl <'a, V: 'a> BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     fn push_leftmost_thenright (&mut self, mut tree: &'a BST<V>) {
         while let NonEmpty(ref node) = *tree {
             println!("Tree: {:?}",node.val);
@@ -42,13 +42,13 @@ impl <'a, V: 'a> BST_post_iter<'a, V> where V : Debug + Copy + Clone + Ord + Par
         }
     }
 
-    fn push_node(&mut self, node : &'a BST_node<V>) {
+    fn push_node(&mut self, node : &'a BSTNode<V>) {
         println!("Node: {:?}",node.val);
         self.iter_stack.push((node, true));
     }
 }
 // Iterator for Post-Order
-impl<'a, V> Iterator for BST_post_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+impl<'a, V> Iterator for BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     type Item = &'a V;
     fn next(&mut self) -> Option<&'a V> {
         let (node, _) = match self.iter_stack.pop() {
@@ -71,11 +71,11 @@ impl<'a, V> Iterator for BST_post_iter<'a, V> where V : Debug + Copy + Clone + O
 }
 
 
-struct BST_pre_iter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
-    iter_stack: Vec<&'a BST_node<V>>
+struct BSTPreIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
+    iter_stack: Vec<&'a BSTNode<V>>
 }
 
-impl <'a, V: 'a> BST_pre_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+impl <'a, V: 'a> BSTPreIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     fn push_top (&mut self, mut tree: &'a BST<V>) {
         if let NonEmpty(ref node) = *tree {
             self.iter_stack.push(node);
@@ -83,7 +83,7 @@ impl <'a, V: 'a> BST_pre_iter<'a, V> where V : Debug + Copy + Clone + Ord + Part
     }
 }
 // Iterator for Post-Order
-impl<'a, V> Iterator for BST_pre_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+impl<'a, V> Iterator for BSTPreIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     type Item = &'a V;
     // pop top of stack and return value, push left and then right nodes if they exist
     fn next(&mut self) -> Option<&'a V> {
@@ -111,11 +111,11 @@ impl<'a, V> Iterator for BST_pre_iter<'a, V> where V : Debug + Copy + Clone + Or
     }
 }
 
-struct BST_in_order_iter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
-    iter_stack: Vec<&'a BST_node<V>>
+struct BSTInOrderIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
+    iter_stack: Vec<&'a BSTNode<V>>
 }
 
-impl <'a, V: 'a> BST_in_order_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+impl <'a, V: 'a> BSTInOrderIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     fn push_leftmost (&mut self, mut tree: &'a BST<V>) {
         while let NonEmpty(ref node) = *tree {
             self.iter_stack.push(node);
@@ -124,7 +124,7 @@ impl <'a, V: 'a> BST_in_order_iter<'a, V> where V : Debug + Copy + Clone + Ord +
     }
 }
 // Iterator for In-Order
-impl<'a, V> Iterator for BST_in_order_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
+impl<'a, V> Iterator for BSTInOrderIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     type Item = &'a V;
     // pop top of stack and return value, push left and then right nodes if they exist
     fn next(&mut self) -> Option<&'a V> {
@@ -150,21 +150,21 @@ impl <'a, V> BST <V>
         Empty
     }
 
-    fn iter_post_order(& self) -> BST_post_iter<V> {
-        let mut iter = BST_post_iter { iter_stack: Vec::new()};
+    fn iter_post_order(& self) -> BSTPostIter<V> {
+        let mut iter = BSTPostIter { iter_stack: Vec::new()};
         iter.push_leftmost_thenright(self);
         iter
     }
 
     // Pushed reference to top node
-    fn iter_pre_order(& self) -> BST_pre_iter<V> {
-        let mut iter = BST_pre_iter { iter_stack: Vec::new()};
+    fn iter_pre_order(& self) -> BSTPreIter<V> {
+        let mut iter = BSTPreIter { iter_stack: Vec::new()};
         iter.push_top(self);
         iter
     }
     // Pushed reference to top node
-    fn iter_in_order(& self) -> BST_in_order_iter<V> {
-        let mut iter = BST_in_order_iter { iter_stack: Vec::new()};
+    fn iter_in_order(& self) -> BSTInOrderIter<V> {
+        let mut iter = BSTInOrderIter { iter_stack: Vec::new()};
         iter.push_leftmost(self);
         iter
     }
@@ -173,7 +173,7 @@ impl <'a, V> BST <V>
     fn insert(&mut self, new_val: V) {
         match self {
             &mut Empty => {
-                let new_tree = NonEmpty(Box::new(BST_node {left: Empty, right: Empty, val: new_val, depth: 1}));
+                let new_tree = NonEmpty(Box::new(BSTNode {left: Empty, right: Empty, val: new_val, depth: 1}));
                 *self = new_tree;
             },
             &mut NonEmpty(ref mut n) => {
@@ -184,7 +184,7 @@ impl <'a, V> BST <V>
                 match target_subtree {
                     &mut NonEmpty (_) => target_subtree.insert(new_val),
                     &mut Empty => {
-                        let boxed_node = NonEmpty(Box::new(BST_node{left: Empty, right: Empty,  val: new_val, depth: 1}));
+                        let boxed_node = NonEmpty(Box::new(BSTNode {left: Empty, right: Empty,  val: new_val, depth: 1}));
                         *target_subtree = boxed_node;
                     }
                 }
