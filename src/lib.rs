@@ -4,6 +4,7 @@
 
 use std::fmt::Debug;
 use self::BST::*;
+use std::mem;
 ///  Generic Search Tree
 ///
 
@@ -12,10 +13,6 @@ enum BST<V> {
     NonEmpty(Box<BST_node<V>>),
 }
 
-///
-///
-///
-///
 ///
 ///
 /// A BST is an implementation of a SearchTree
@@ -32,9 +29,6 @@ struct BST_iter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
     iter_stack: Vec<&'a BST_node<V>>
 }
 
-pub struct IntoIter_Post<V>(BST_node<V>);
-
-
 impl <'a, V: 'a> BST_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     fn push_leftmost (&mut self, mut tree: &'a BST<V>) {
         while let NonEmpty(ref node) = *tree {
@@ -44,6 +38,32 @@ impl <'a, V: 'a> BST_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialE
     }
 }
 
+struct BST_into_iter<V> where V : Debug + Copy + Clone + Ord + PartialEq {
+    top : BST<V>,
+    next_node : Option<BST_node<V>>,
+}
+
+// IntoIterator Post Order Traversal
+impl<V> BST_into_iter<V> where V : Debug + Copy + Clone + Ord + PartialEq {
+    fn set_leftmost (mut self, mut tree: BST<V>) {
+
+        if let BST::NonEmpty(mut root) = tree {
+            match (*root.left, *root.right) {
+                (Empty, Empty) => {
+                    self.next_node = Some(*root);
+                },
+                (NonEmpty(l), _) => self.set_leftmost(l),
+                (Empty,NonEmpty(r)) => self.set_leftmost(r),
+            }
+        }
+        // If no left or right, push node
+        // If left, call set_leftmost on left
+        // else call set_leftmost on right
+        //mem::swap(&mut right, &mut top.right);
+    }
+}
+
+// Iterator for Post-Order
 impl<'a, V> Iterator for BST_iter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     type Item = &'a V;
     fn next(&mut self) -> Option<&'a V> {
@@ -58,18 +78,36 @@ impl<'a, V> Iterator for BST_iter<'a, V> where V : Debug + Copy + Clone + Ord + 
     }
 }
 
-impl<'a, V:'a> IntoIterator for &'a BST<V> where V : Debug + Copy + Clone + Ord + PartialEq {
-    type Item = &'a V;
-    type IntoIter = BST_iter<'a,  V>;
+impl IntoIterator for BST<V> {
+    type Item = V;
+    type IntoIter = BST::IntoIter<V>;
 
-    fn into_iter(self) -> Self::IntoIter {
-        self.iter()
+    fn into_iter(self) -> <Self as IntoIterator>::IntoIter {
+        self.
+
+    }
+}
+// Into Iterator for Post-Order
+impl<V> Iterator for BST_into_iter<V> where V : Debug + Copy + Clone + Ord + PartialEq {
+    type Item = V;
+    fn next(mut self) -> Option<V> {
+        let node = match self.next_node {
+            Some(n) => n,
+            None => return None,
+        };
+
+        // Need to restart set_leftmost from the top of the tree
+        self.set_leftmost(self.top);
+
+        Some(node.val)
     }
 }
 
 //++++++++++++++++++++++++++++++ITER_MUT++++++++++++++++++++++++++++++++++++++++
 ///BinTreeIter_MUTABLE
 ///
+///
+/*
 struct BST_iter_mut<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
     iter_stack: Vec< &'a mut BST_node<V>>
 }
@@ -96,11 +134,12 @@ impl<'a, V> Iterator for BST_iter_mut<'a, V> where V : Debug + Copy + Clone + Or
         Some(& mut node.val)
     }
 }
+*/
 
 
 //++++++++++++++++++++++++++++++++++IMPL-BST+++++++++++++++++++++++++++++++++++++
 
-impl <V> BST <V>
+impl <'a, V> BST <V>
     where V : Debug + Copy + Clone + Ord + PartialEq {
 
     fn new() -> Self {
@@ -113,11 +152,18 @@ impl <V> BST <V>
         iter
     }
 
+    fn into_iter(self) -> BST_into_iter<V> {
+        let mut iter = BST_into_iter { next_node : None, top : self };
+        iter.set_leftmost(self);
+        iter
+    }
+    /*
     fn iter_mut(&mut self) -> BST_iter_mut<V> {
         let mut iter = BST_iter_mut { iter_stack: Vec::new()};
         iter.push_leftmost(self);
         iter
     }
+    */
 
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
     fn insert(&mut self, new_val: V) {
@@ -188,7 +234,6 @@ fn iterator_test (){
 #[test]
 fn into_iterator_testCHECK_EMPTY () {
     let mut tree : BST<i32> = BST::new();
-    let mut node_vec: Vec<i32> = vec![1,6,7,8,10,13,20];
 
     tree.insert(8);
     tree.insert(13);
@@ -198,14 +243,34 @@ fn into_iterator_testCHECK_EMPTY () {
     tree.insert(10);
     tree.insert(7);
 
+    for i in 0..3 {
+        let mut node_vec: Vec<i32> = vec![1,6,7,8,10,13,20];
+        let vec_reverse = node_vec.reverse();
+        for node in tree.into_iter() {
+            assert_eq!(node, &node_vec.pop().unwrap());
+        }
+    }
+}
 
-    for value in tree.into_iter() {
-        println!("{:?}", value);
+#[test]
+fn into_iterator_test_consume () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    for node in tree.into_iter() {
     }
 
     match tree {
         Empty => assert!(true),
-        _ => assert!(false)
+        NotEmpty => assert!(false),
     }
+
 }
 
