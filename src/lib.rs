@@ -200,9 +200,9 @@ impl <'a, V> BST <V>
 
     pub fn size() -> u64
     {
-
+        unimplemented!()
     }
-    pub fn find() -> Option<&V>
+    pub fn find() -> Option<&'a V>
     {
         unimplemented!()
     }
