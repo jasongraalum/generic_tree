@@ -12,6 +12,7 @@ enum BST<V> {
     NonEmpty(Box<BSTNode<V>>),
 }
 
+
 ///
 ///
 /// A BST is an implementation of a SearchTree
@@ -190,6 +191,48 @@ impl <'a, V> BST <V>
                 }
             }
         }
+    }
+
+    pub fn depth() -> u64
+    {
+        unimplemented!()
+    }
+
+    pub fn size() -> u64
+    {
+
+    }
+    pub fn find() -> Option<&V>
+    {
+        unimplemented!()
+    }
+
+    pub fn contains() -> bool
+    {
+        unimplemented!()
+    }
+
+    pub fn remove() -> bool
+    {
+        unimplemented!()
+    }
+
+    pub fn merge(other_tree : BST<V>)
+    {
+        unimplemented!()
+    }
+
+    pub fn print_in_order()
+    {
+        unimplemented!()
+    }
+    pub fn print_post_order()
+    {
+        unimplemented!()
+    }
+    pub fn print_pre_order()
+    {
+        unimplemented!()
     }
 
     fn peek(&self) -> Option<&V> {
