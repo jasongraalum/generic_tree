@@ -7,7 +7,7 @@ use std::fmt::Debug;
 use self::BST::*;
 use std::mem;
 use std::cmp;
-//
+
 ///  Generic Search Tree
 ///
 #[allow(dead_code)]
@@ -19,6 +19,8 @@ enum BST<V> {
 ///
 ///
 /// A BST is an implementation of a SearchTree
+///
+///
 #[allow(unused_variables)]
 #[allow(dead_code)]
 struct BSTNode<V> {
@@ -28,6 +30,8 @@ struct BSTNode<V> {
     depth: usize,
 }
 
+
+
 struct BSTInOrderIntoIterator<V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -35,6 +39,9 @@ where
     into_iter_stack: Vec<BST<V>>,
 }
 
+///
+/// Iterator for Post-Order
+///
 impl<V> BSTInOrderIntoIterator<V>
 where
    V: Debug + Copy + Clone + Ord + PartialEq,
@@ -133,7 +140,10 @@ where
         self.iter_stack.push((node, true));
     }
 }
-// Iterator for Post-Order
+
+///
+/// Iterator for Post-Order
+///
 impl<'a, V> Iterator for BSTPostIter<'a, V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -178,7 +188,10 @@ where
         }
     }
 }
-// Iterator for Post-Order
+
+///
+/// Iterator for Pre-Order
+///
 impl<'a, V> Iterator for BSTPreIter<'a, V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
