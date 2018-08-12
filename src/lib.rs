@@ -37,21 +37,22 @@ where
 
 impl<V> BSTInOrderIntoIterator<V>
 where
-   V: Debug + Copy + Clone + Ord + PartialEq,
+    V: Debug + Copy + Clone + Ord + PartialEq,
 {
     fn new(tree: BST<V>) -> BSTInOrderIntoIterator<V> {
-        let mut iter = BSTInOrderIntoIterator { into_iter_stack : Vec::new() };
+        let mut iter = BSTInOrderIntoIterator {
+            into_iter_stack: Vec::new(),
+        };
         iter.push_leftmost(tree);
-        return iter;
+        iter
     }
 
     fn push_leftmost(&mut self, mut tree: BST<V>) {
-
         let some_left_tree = tree.take_left();
         match some_left_tree {
             None => {
                 self.into_iter_stack.push(tree);
-            },
+            }
             Some(left_tree) => {
                 self.into_iter_stack.push(tree);
                 self.push_leftmost(left_tree);
@@ -69,27 +70,25 @@ where
     // pop top of stack and return value, push left and then right nodes if they exist
 
     fn next(&mut self) -> Option<V> {
-         match self.into_iter_stack.pop() {
-             None => return None,
-             Some(mut tree) => {
-                 if let Some(right_tree) = tree.take_right() {
-                     self.push_leftmost(right_tree);
-                 };
-                 if let NonEmpty(node) = tree {
-                     return node.val;
-                 }
-                 else
-                 {
-                     return None;
-                 }
-            },
+        match self.into_iter_stack.pop() {
+            None => None,
+            Some(mut tree) => {
+                if let Some(right_tree) = tree.take_right() {
+                    self.push_leftmost(right_tree);
+                };
+                if let NonEmpty(node) = tree {
+                    node.val
+                } else {
+                    None
+                }
+            }
         }
     }
 }
 
 impl<V> IntoIterator for BST<V>
-    where
-        V: Debug + Copy + Clone + Ord + PartialEq,
+where
+    V: Debug + Copy + Clone + Ord + PartialEq,
 {
     type Item = V;
     type IntoIter = BSTInOrderIntoIterator<V>;
@@ -247,8 +246,6 @@ where
     }
 }
 
-
-
 //++++++++++++++++++++++++++++++++++IMPL-BST+++++++++++++++++++++++++++++++++++++
 #[allow(dead_code)]
 #[allow(unused_variables)]
@@ -329,111 +326,89 @@ where
     ///
     ///Takes a reference to self and recursively explores left and right to find
     ///taking the minimum of the two
-    pub fn min_depth(& self) -> u64
-    {
-        match self {
-            &Empty => return 0,
-            &NonEmpty(ref n) => {
-                match (&n.left, &n.right) {
-                    (&Empty, &Empty) => return 1,
-                    (&Empty, &NonEmpty(_)) => return n.right.min_depth() + 1,
-                    (&NonEmpty(_), &Empty) => return n.left.min_depth() + 1,
+    pub fn min_depth(&self) -> u64 {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => match (&n.left, &n.right) {
+                (&Empty, &Empty) => 1,
+                (&Empty, &NonEmpty(_)) => n.right.min_depth() + 1,
+                (&NonEmpty(_), &Empty) => n.left.min_depth() + 1,
 
-                    _ => return cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
-                }
-            }
+                _ => cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
+            },
         }
     }
 
     ///
-     ///Takes a reference to self and recursively explores left and right
-     ///always choosing branch with maximum depth.
-    pub fn max_depth(& self) -> u64
-    {
-        match self {
-            &Empty => return 0,
-            &NonEmpty(ref n) => {
-                match (&n.left, &n.right) {
-                    (&Empty, &Empty) => return 1,
-                    (&Empty, &NonEmpty(_)) => {
-                        println!("Current node: {:?}", n.val);
-                        return n.right.max_depth() + 1
-                    },
-
-                    (&NonEmpty(_), &Empty) => {
-                        println!("Current node: {:?}", n.val);
-                        return n.left.max_depth() + 1
-                    },
-
-                    _ => {
-                        println!("Current node: {:?}", n.val);
-                        return cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
-                    },
+    ///Takes a reference to self and recursively explores left and right
+    ///always choosing branch with maximum depth.
+    pub fn max_depth(&self) -> u64 {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => match (&n.left, &n.right) {
+                (&Empty, &Empty) => 1,
+                (&Empty, &NonEmpty(_)) => {
+                    println!("Current node: {:?}", n.val);
+                    n.right.max_depth() + 1
                 }
-            }
+
+                (&NonEmpty(_), &Empty) => {
+                    println!("Current node: {:?}", n.val);
+                    n.left.max_depth() + 1
+                }
+
+                _ => {
+                    println!("Current node: {:?}", n.val);
+                    cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
+                }
+            },
         }
     }
 
     ///
     /// returns size of tree
     ///
-    pub fn size(& self) -> usize
-    {
+    pub fn size(&self) -> usize {
         self.iter_in_order().count()
     }
-
 
     ///
     /// returns an option of generic type V. None or Some(V).
     ///
-    pub fn find(& self, val: V ) -> Option<V>
-    {
-        match self {
-            &Empty => {
-                return None;
-            },
-            &NonEmpty(ref n) => {
+    pub fn find(&self, val: V) -> Option<V> {
+        match *self {
+            Empty => {
+                None
+            }
+            NonEmpty(ref n) => {
                 if n.val == Some(val) {
                     Some(val)
+                } else if n.val > Some(val) {
+                    n.left.find(val)
+                } else {
+                    n.right.find(val)
                 }
-                    else {
-                        if  n.val > Some(val) {
-                            n.left.find(val)
-                        }
-                            else {
-                                n.right.find(val)
-                            }
-                    }
             }
         }
     }
-
 
     ///
     /// If tree contains generic type V. Returns true. Otherwise returns false.
     ///
-    pub fn contains(&self, val: V) -> bool
-    {
-        match self {
-            &Empty => {
-                false
-            },
-            &NonEmpty(ref n) => {
+    pub fn contains(&self, val: V) -> bool {
+        match *self {
+            Empty => false,
+            NonEmpty(ref n) => {
                 if n.val == Some(val) {
                     true
+                } else if n.val > Some(val) {
+                    n.left.contains(val)
+                } else {
+                    n.right.contains(val)
                 }
-                    else {
-                        if  n.val > Some(val) {
-                            n.left.contains(val)
-                        }
-                            else {
-                                n.right.contains(val)
-                            }
-                    }
             }
         }
     }
-
 
     // Swap values of the current BST with the right node BST
     // Return the current BST
@@ -721,8 +696,8 @@ fn take_right_test() {
 }
 
 #[test]
-fn min_depth_Test () {
-    let mut tree : BST<i32> = BST::new();
+fn min_depth_test() {
+    let mut tree: BST<i32> = BST::new();
 
     tree.insert(8);
     tree.insert(13);
@@ -734,12 +709,11 @@ fn min_depth_Test () {
     tree.insert(19);
 
     assert_eq!(tree.min_depth(), 3);
-
 }
 
 #[test]
-fn max_depth_Test () {
-    let mut tree : BST<i32> = BST::new();
+fn max_depth_test() {
+    let mut tree: BST<i32> = BST::new();
 
     tree.insert(8);
     tree.insert(13);
@@ -751,12 +725,11 @@ fn max_depth_Test () {
     tree.insert(19);
 
     assert_eq!(tree.max_depth(), 4);
-
 }
 
 #[test]
-fn size_Test () {
-    let mut tree : BST<i32> = BST::new();
+fn size_test() {
+    let mut tree: BST<i32> = BST::new();
 
     tree.insert(8);
     tree.insert(13);
@@ -771,8 +744,8 @@ fn size_Test () {
 }
 
 #[test]
-fn find_Test () {
-    let mut tree : BST<i32> = BST::new();
+fn find_test() {
+    let mut tree: BST<i32> = BST::new();
 
     tree.insert(8);
     tree.insert(13);
@@ -795,8 +768,8 @@ fn find_Test () {
 }
 
 #[test]
-fn contains_test () {
-    let mut tree : BST<i32> = BST::new();
+fn contains_test() {
+    let mut tree: BST<i32> = BST::new();
 
     tree.insert(8);
     tree.insert(13);
