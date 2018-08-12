@@ -485,47 +485,47 @@ where
     ///
     /// Removes node containing specified value.
     ///
-//    pub fn remove(&mut self, val: V) -> Option<V> {
-//
-//        match self {
-//            Empty => {
-//                return None;
-//            },
-//            NonEmpty(ref mut n) => {
-//                if  n.val ==  Some(val) {
-//                    match (n.right, n.left) {
-//                        //no children
-//                        (Empty, Empty) => {
-//                            mem::replace( n,Empty);
-//                        },
-//                        //left child but not right child
-//                        (NonEmpty(_), Empty) => {
-//                            mem::replace(n, n.left);
-//                        },
-//                        //right child only, replace with right child
-//                        (Empty, NonEmpty(_)) => {
-//                            mem::replace(n, n.right);
-//                        }
-//                        //Two children
-//                        (NonEmpty(_), NonEmpty(right_child)) => {
-//                           //find value of min element of right child
-//                            n.val = right_child.min_value();
-//                            //remove that node from the right subtree.
-//                            n.right.remove(n.val);
-//                        }
-//                    }
-//
-//                } else {
-//                    if n.val > Some(val) {
-//                        n.left.remove(val);
-//                    } else {
-//                        n.right.remove(val);
-//                    }
-//                }
-//            }
-//        }
-//        return None
-//    }
+    pub fn remove(mut self, val: V) -> Option<V> {
+
+        match self {
+            Empty => {
+                return None;
+            },
+            NonEmpty(mut n) => {
+                if  n.val ==  Some(val) {
+                    match (n.right, n.left) {
+                        //no children
+                        (Empty, Empty) => {
+                            mem::replace( n,Empty);
+                        },
+                        //left child but not right child
+                        (NonEmpty(_), Empty) => {
+                            mem::replace(n, n.left);
+                        },
+                        //right child only, replace with right child
+                        (Empty, NonEmpty(_)) => {
+                            mem::replace(n, n.right);
+                        }
+                        //Two children
+                        (NonEmpty(_), NonEmpty(right_child)) => {
+                           //find value of min element of right child
+                            n.val = right_child.min_value();
+                            //remove that node from the right subtree.
+                            n.right.remove(n.val);
+                        }
+                    }
+
+                } else {
+                    if n.val > Some(val) {
+                        n.left.remove(val);
+                    } else {
+                        n.right.remove(val);
+                    }
+                }
+            }
+        }
+        return None
+    }
 
     // Swap values of the current BST with the right node BST
     // Return the current BST

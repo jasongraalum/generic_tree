@@ -1,12 +1,17 @@
-# Project Title
+# Generic Tree in Rust
 
-One Paragraph of project description goes here
+Our original goal was to create a more general framework that could be used for multiple types of trees. This turned out to be too large of a task for the scope of our project since we could not figure how to accomplish this without implementing a separate generic tree for each tree type.
+Our first, (and most likely final) version is an implementation for a generic binary search tree.  Generic tree currently implements rust standard iterators, iter() and into_iter() for pre_order, in_order and post_order traversal. Other methods include: 
+- 
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+- Go to https://github.com/jasongraalum/generic_tree.
+- Copy and paste the contents of src/lib.rs into your rust project.
+- Try it out.
 
 ### Prerequisites
+
+- a rust environment
 
 What things you need to install the software and how to install them
 
