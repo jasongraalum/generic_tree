@@ -216,6 +216,7 @@ where
     }
 
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
+    /// Modified
     pub fn insert(&mut self, new_val: V) {
         match *self {
             Empty => {
@@ -270,6 +271,8 @@ where
         unimplemented!()
     }
 
+    // Swap values of the current BST with the left node BST
+    // Return the current BST
     pub fn swap_right(&mut self) -> Option<&BST<V>> {
         let mut curr_val: Option<V> = None;
         let mut temp_val: Option<V> = None;
@@ -278,12 +281,6 @@ where
             Empty => return None,
             NonEmpty(ref mut node) => {
                 mem::swap(&mut curr_val, &mut node.val);
-            }
-        };
-
-        match *self {
-            Empty => return None,
-            NonEmpty(ref mut node) => {
                 match node.right {
                     Empty => return None,
                     NonEmpty(ref mut r) => {
@@ -291,12 +288,6 @@ where
                         mem::swap(&mut curr_val, &mut r.val);
                     }
                 };
-            }
-        };
-
-        match *self {
-            Empty => return None,
-            NonEmpty(ref mut node) => {
                 mem::swap(&mut temp_val, &mut node.val);
             }
         };
@@ -304,6 +295,8 @@ where
         Some(self)
     }
 
+    // Swap values of the current BST with the left node BST
+    // Return the current BST
     pub fn swap_left(&mut self) -> Option<&BST<V>> {
         let mut curr_val: Option<V> = None;
         let mut temp_val: Option<V> = None;
@@ -312,12 +305,6 @@ where
             Empty => return None,
             NonEmpty(ref mut node) => {
                 mem::swap(&mut curr_val, &mut node.val);
-            }
-        };
-
-        match *self {
-            Empty => return None,
-            NonEmpty(ref mut node) => {
                 match node.left {
                     Empty => return None,
                     NonEmpty(ref mut r) => {
@@ -325,12 +312,6 @@ where
                         mem::swap(&mut curr_val, &mut r.val);
                     }
                 };
-            }
-        };
-
-        match *self {
-            Empty => return None,
-            NonEmpty(ref mut node) => {
                 mem::swap(&mut temp_val, &mut node.val);
             }
         };
