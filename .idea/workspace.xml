@@ -9,7 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Some simple clean up....remove println!'s etc.">
+    <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
@@ -25,33 +25,21 @@
     <window id="1">
       <content type="file-editors">
         <state>
-          <leaf>
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/lib.rs">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="792">
-                    <caret line="394" selection-start-line="394" selection-end-line="394" />
+                  <state relative-caret-position="405">
+                    <caret line="504" selection-start-line="504" selection-end-line="504" />
                     <folding>
-                      <element signature="e#4237#4238#0" expanded="true" />
-                      <element signature="e#4257#4258#0" expanded="true" />
-                      <element signature="e#4893#4894#0" expanded="true" />
-                      <element signature="e#4922#4923#0" expanded="true" />
-                      <element signature="e#6127#6128#0" expanded="true" />
-                      <element signature="e#6158#6159#0" expanded="true" />
-                      <element signature="e#6190#6191#0" expanded="true" />
-                      <element signature="e#6221#6222#0" expanded="true" />
-                      <element signature="e#6262#6263#0" expanded="true" />
-                      <element signature="e#6293#6294#0" expanded="true" />
-                      <element signature="e#6330#6331#0" expanded="true" />
-                      <element signature="e#6361#6362#0" expanded="true" />
-                      <element signature="e#7236#7237#0" expanded="true" />
-                      <element signature="e#7267#7268#0" expanded="true" />
-                      <element signature="e#7302#7303#0" expanded="true" />
-                      <element signature="e#7333#7334#0" expanded="true" />
-                      <element signature="e#7369#7370#0" expanded="true" />
-                      <element signature="e#7400#7401#0" expanded="true" />
-                      <element signature="e#7435#7436#0" expanded="true" />
-                      <element signature="e#7466#7467#0" expanded="true" />
+                      <element signature="e#9160#9161#0" expanded="true" />
+                      <element signature="e#9191#9192#0" expanded="true" />
+                      <element signature="e#9226#9227#0" expanded="true" />
+                      <element signature="e#9257#9258#0" expanded="true" />
+                      <element signature="e#9293#9294#0" expanded="true" />
+                      <element signature="e#9324#9325#0" expanded="true" />
+                      <element signature="e#9359#9360#0" expanded="true" />
+                      <element signature="e#9390#9391#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -114,20 +102,20 @@
     <session id="-1208082875">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="rs" value="7915" />
-          <entry key="txt" value="56" />
+          <entry key="rs" value="11958" />
+          <entry key="txt" value="265" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="56" />
-          <entry key="Rust" value="7915" />
+          <entry key="PLAIN_TEXT" value="265" />
+          <entry key="Rust" value="11958" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -146,7 +134,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -199,6 +187,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -216,14 +206,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534031310349" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534037811626" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -253,7 +241,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.Test swap_test">
+  <component name="RunManager" selected="Cargo Command.Test take_right_test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -263,24 +251,6 @@
     <configuration name="Test in_order_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="test --package generic_tree --lib in_order_iterator_test -- --exact" />
-      <option name="nocapture" value="true" />
-      <option name="backtrace" value="SHORT" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test inorder_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib inorder_iterator_test -- --exact" />
-      <option name="nocapture" value="true" />
-      <option name="backtrace" value="SHORT" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test post_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib post_iterator_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -299,6 +269,24 @@
     <configuration name="Test swap_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="test --package generic_tree --lib swap_test -- --exact" />
+      <option name="nocapture" value="true" />
+      <option name="backtrace" value="SHORT" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test take_left_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="channel" value="DEFAULT" />
+      <option name="command" value="test --package generic_tree --lib take_left_test -- --exact" />
+      <option name="nocapture" value="true" />
+      <option name="backtrace" value="SHORT" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test take_right_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="channel" value="DEFAULT" />
+      <option name="command" value="test --package generic_tree --lib take_right_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -331,18 +319,18 @@
     <list>
       <item itemvalue="Cargo Command.build" />
       <item itemvalue="Cargo Command.Test pre_iterator_test" />
-      <item itemvalue="Cargo Command.Test inorder_iterator_test" />
       <item itemvalue="Cargo Command.Test in_order_iterator_test" />
-      <item itemvalue="Cargo Command.Test post_iterator_test" />
       <item itemvalue="Cargo Command.Test swap_test" />
+      <item itemvalue="Cargo Command.Test take_left_test" />
+      <item itemvalue="Cargo Command.Test take_right_test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo Command.Test take_right_test" />
+        <item itemvalue="Cargo Command.Test take_left_test" />
         <item itemvalue="Cargo Command.Test swap_test" />
         <item itemvalue="Cargo Command.Test in_order_iterator_test" />
         <item itemvalue="Cargo Command.Test pre_iterator_test" />
-        <item itemvalue="Cargo Command.Test post_iterator_test" />
-        <item itemvalue="Cargo Command.Test inorder_iterator_test" />
       </list>
     </recent_temporary>
   </component>
@@ -372,6 +360,7 @@
       <workItem from="1533769699808" duration="597000" />
       <workItem from="1534007314779" duration="15782000" />
       <workItem from="1534028169287" duration="4991000" />
+      <workItem from="1534034850954" duration="2934000" />
     </task>
     <task id="LOCAL-00001" summary="Check point - with use of new Trait&#10;&#10;New step is removing the Trait">
       <created>1532280363609</created>
@@ -478,17 +467,23 @@
       <option name="project" value="LOCAL" />
       <updated>1534028363617</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value">
+      <created>1534037066472</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1534037066472</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109555000" />
+    <option name="totallyTimeSpent" value="112489000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1970" y="63" width="1814" height="1017" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2646727" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26749435" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Learn" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -498,13 +493,13 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49624687" visible="true" weight="0.5399113" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49624687" weight="0.5399113" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893504" weight="0.48419723" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893504" visible="true" weight="0.48337027" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5037531" side_tool="true" weight="0.26283988" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.42040184" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -549,7 +544,8 @@
     <MESSAGE value="Pre-order, Post-order and In-order traversal working." />
     <MESSAGE value="Naming cleanup" />
     <MESSAGE value="Some simple clean up....remove println!'s etc." />
-    <option name="LAST_COMMIT_MESSAGE" value="Some simple clean up....remove println!'s etc." />
+    <MESSAGE value="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Cargo.toml">
@@ -575,29 +571,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="394" selection-start-line="394" selection-end-line="394" />
+        <state relative-caret-position="405">
+          <caret line="504" selection-start-line="504" selection-end-line="504" />
           <folding>
-            <element signature="e#4237#4238#0" expanded="true" />
-            <element signature="e#4257#4258#0" expanded="true" />
-            <element signature="e#4893#4894#0" expanded="true" />
-            <element signature="e#4922#4923#0" expanded="true" />
-            <element signature="e#6127#6128#0" expanded="true" />
-            <element signature="e#6158#6159#0" expanded="true" />
-            <element signature="e#6190#6191#0" expanded="true" />
-            <element signature="e#6221#6222#0" expanded="true" />
-            <element signature="e#6262#6263#0" expanded="true" />
-            <element signature="e#6293#6294#0" expanded="true" />
-            <element signature="e#6330#6331#0" expanded="true" />
-            <element signature="e#6361#6362#0" expanded="true" />
-            <element signature="e#7236#7237#0" expanded="true" />
-            <element signature="e#7267#7268#0" expanded="true" />
-            <element signature="e#7302#7303#0" expanded="true" />
-            <element signature="e#7333#7334#0" expanded="true" />
-            <element signature="e#7369#7370#0" expanded="true" />
-            <element signature="e#7400#7401#0" expanded="true" />
-            <element signature="e#7435#7436#0" expanded="true" />
-            <element signature="e#7466#7467#0" expanded="true" />
+            <element signature="e#9160#9161#0" expanded="true" />
+            <element signature="e#9191#9192#0" expanded="true" />
+            <element signature="e#9226#9227#0" expanded="true" />
+            <element signature="e#9257#9258#0" expanded="true" />
+            <element signature="e#9293#9294#0" expanded="true" />
+            <element signature="e#9324#9325#0" expanded="true" />
+            <element signature="e#9359#9360#0" expanded="true" />
+            <element signature="e#9390#9391#0" expanded="true" />
           </folding>
         </state>
       </provider>
