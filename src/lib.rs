@@ -60,7 +60,9 @@ where
     }
 }
 
-// Iterator for In-Order
+///
+/// Iterator for In-Order
+///
 impl<V> Iterator for BSTInOrderIntoIterator<V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -87,6 +89,9 @@ where
     }
 }
 
+///
+/// IntoIterator implementation
+///
 impl<V> IntoIterator for BST<V>
     where
         V: Debug + Copy + Clone + Ord + PartialEq,
@@ -100,7 +105,7 @@ impl<V> IntoIterator for BST<V>
 }
 
 ///
-///BinTreeIter
+/// Post order iteration of BST.
 ///
 struct BSTPostIter<'a, V: 'a>
 where
@@ -346,8 +351,9 @@ where
     }
 
     ///
-     ///Takes a reference to self and recursively explores left and right
-     ///always choosing branch with maximum depth.
+    ///Takes a reference to self and recursively explores left and right
+    ///always choosing branch with maximum depth.
+    ///
     pub fn max_depth(& self) -> u64
     {
         match self {
@@ -422,18 +428,79 @@ where
                 if n.val == Some(val) {
                     true
                 }
-                    else {
-                        if  n.val > Some(val) {
-                            n.left.contains(val)
-                        }
-                            else {
-                                n.right.contains(val)
-                            }
+                else {
+                    if  n.val > Some(val) {
+                        n.left.contains(val)
                     }
+                    else {
+                        n.right.contains(val)
+                    }
+                }
             }
         }
     }
 
+
+    ///
+    /// Returns tree's minimum value
+    ///
+    pub fn min_value (& self) -> Option<V> {
+        match self {
+            Empty => None,
+            NonEmpty(n) => {
+                match n.left {
+                    Empty => n.val,
+                    NonEmpty(_) => n.left.min_value(),
+                }
+            },
+        }
+    }
+
+
+    ///
+    /// Removes node containing specified value.
+    ///
+    pub fn remove(&mut self, val: V) -> Option<V> {
+
+        match self {
+            Empty => {
+                return None;
+            },
+            NonEmpty(ref mut n) => {
+                if  n.val ==  Some(val) {
+                    match (n.right, n.left) {
+                        //no children
+                        (Empty, Empty) => {
+                            mem::replace( n,Empty);
+                        },
+                        //left child but not right child
+                        (NonEmpty(_), Empty) => {
+                            mem::replace(n, n.left);
+                        },
+                        //right child only, replace with right child
+                        (Empty, NonEmpty(_)) => {
+                            mem::replace(n, n.right);
+                        }
+                        //Two children
+                        (NonEmpty(_), NonEmpty(right_child)) => {
+                           //find value of min element of right child
+                            n.val = right_child.min_value();
+                            //remove that node from the right subtree.
+                            n.right.remove(n.val);
+                        }
+                    }
+
+                } else {
+                    if n.val > Some(val) {
+                        n.left.remove(val);
+                    } else {
+                        n.right.remove(val);
+                    }
+                }
+            }
+        }
+        return None;
+    }
 
     // Swap values of the current BST with the right node BST
     // Return the current BST
@@ -483,6 +550,8 @@ where
         Some(self)
     }
 
+    ///
+    ///
     pub fn take_right(&mut self) -> Option<BST<V>> {
         match *self {
             Empty => None,
@@ -505,20 +574,19 @@ where
         }
     }
 
-    pub fn merge(other_tree: BST<V>) {
-        unimplemented!()
+    ///
+    /// Merges current tree with another tree by inserting values from other.
+    ///
+    pub fn merge(&mut self, other_tree: BST<V>) {
+        for n in other_tree.iter_in_order() {
+            self.insert(*n);
+        }
     }
 
-    pub fn print_in_order() {
-        unimplemented!()
-    }
-    pub fn print_post_order() {
-        unimplemented!()
-    }
-    pub fn print_pre_order() {
-        unimplemented!()
-    }
 
+    ///
+    /// Gets the value the root.
+    ///
     fn peek(&self) -> Option<&V> {
         match *self {
             Empty => None,
@@ -815,4 +883,58 @@ fn contains_test () {
     assert_eq!(tree.contains(13), true);
     //None
     assert_eq!(tree.contains(50), false)
+}
+
+#[test]
+fn merge_test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(25);
+
+    let mut tree1 : BST<i32> = BST::new();
+
+    tree.insert(35);
+    tree.insert(23);
+    tree.insert(0);
+    tree.insert(4);
+    tree.insert(9);
+    tree.insert(50);
+    tree.insert(15);
+    tree.insert(14);
+
+    tree.merge(tree1);
+
+    let mut ans_vec: Vec<i32> = vec![0,1,4,6,7,8,9,10,13,14,15,20,23,25,35,50];
+    ans_vec.reverse();
+
+
+    for node in tree.iter_in_order() {
+        assert_eq!(node, &ans_vec.pop().unwrap());
+    }
+
+}
+
+#[test]
+fn min_value_test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(25);
+
+    //left
+    assert_eq!(tree.min_value(), Some(1));
+
 }

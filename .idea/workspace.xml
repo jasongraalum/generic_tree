@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Optimized the swap_left and swap_right functions.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -109,8 +110,12 @@
       <file leaf-file-name="lib.rs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/lib.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="342" column="52" selection-start-line="342" selection-start-column="52" selection-end-line="342" selection-end-column="52" />
+            <state relative-caret-position="1300">
+              <caret line="469" column="19" lean-forward="true" selection-start-line="469" selection-start-column="19" selection-end-line="469" selection-end-column="19" />
+              <folding>
+                <element signature="e#9989#9990#0" expanded="true" />
+                <element signature="e#10032#10033#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -162,8 +167,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="701" />
-    <option name="y" value="25" />
+    <option name="x" value="153" />
+    <option name="y" value="23" />
     <option name="width" value="1664" />
     <option name="height" value="906" />
   </component>
@@ -226,26 +231,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.Test take_right_test">
-    <configuration name="Test in_order_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+  <component name="RunManager" selected="Cargo Command.Test min_value_test">
+    <configuration name="Test lib" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib in_order_iterator_test -- --exact" />
+      <option name="command" value="test --package generic_tree --lib &quot;&quot;" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <envs />
     </configuration>
-    <configuration name="Test pre_iterator_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test merge_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib pre_iterator_test -- --exact" />
+      <option name="command" value="test --package generic_tree --lib merge_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <envs />
     </configuration>
-    <configuration name="Test swap_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test min_value_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package generic_tree --lib swap_test -- --exact" />
+      <option name="command" value="test --package generic_tree --lib min_value_test -- --exact" />
       <option name="nocapture" value="true" />
       <option name="backtrace" value="SHORT" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -297,19 +302,19 @@
     </configuration>
     <list>
       <item itemvalue="Cargo Command.build" />
-      <item itemvalue="Cargo Command.Test pre_iterator_test" />
-      <item itemvalue="Cargo Command.Test in_order_iterator_test" />
-      <item itemvalue="Cargo Command.Test swap_test" />
       <item itemvalue="Cargo Command.Test take_left_test" />
       <item itemvalue="Cargo Command.Test take_right_test" />
+      <item itemvalue="Cargo Command.Test merge_test" />
+      <item itemvalue="Cargo Command.Test lib" />
+      <item itemvalue="Cargo Command.Test min_value_test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo Command.Test min_value_test" />
+        <item itemvalue="Cargo Command.Test lib" />
+        <item itemvalue="Cargo Command.Test merge_test" />
         <item itemvalue="Cargo Command.Test take_right_test" />
         <item itemvalue="Cargo Command.Test take_left_test" />
-        <item itemvalue="Cargo Command.Test swap_test" />
-        <item itemvalue="Cargo Command.Test in_order_iterator_test" />
-        <item itemvalue="Cargo Command.Test pre_iterator_test" />
       </list>
     </recent_temporary>
   </component>
@@ -485,20 +490,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116257000" />
+    <option name="totallyTimeSpent" value="125425000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="701" y="25" width="1664" height="906" extended-state="0" />
-    <editor active="true" />
+    <frame x="153" y="23" width="1664" height="906" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14919852" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14919852" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Cargo" order="5" weight="0.32932332" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50308263" side_tool="true" visible="true" weight="0.0" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49624687" weight="0.32385662" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50493217" side_tool="true" visible="true" weight="0.32880098" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6535142" weight="0.43757725" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.42040184" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4969174" visible="true" weight="0.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.4950678" visible="true" weight="0.32880098" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="right" id="Palette" order="3" />
@@ -568,6 +572,18 @@
     <MESSAGE value="Further cleanup" />
     <MESSAGE value="Optimized the swap_left and swap_right functions." />
     <option name="LAST_COMMIT_MESSAGE" value="Optimized the swap_left and swap_right functions." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/lib.rs</url>
+          <line>472</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/lib.rs" />
@@ -649,8 +665,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="342" column="52" selection-start-line="342" selection-start-column="52" selection-end-line="342" selection-end-column="52" />
+        <state relative-caret-position="1300">
+          <caret line="469" column="19" lean-forward="true" selection-start-line="469" selection-start-column="19" selection-end-line="469" selection-end-column="19" />
+          <folding>
+            <element signature="e#9989#9990#0" expanded="true" />
+            <element signature="e#10032#10033#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
