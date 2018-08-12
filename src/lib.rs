@@ -175,6 +175,7 @@ where
     }
 }
 
+
 //++++++++++++++++++++++++++++++++++IMPL-BST+++++++++++++++++++++++++++++++++++++
 #[allow(dead_code)]
 #[allow(unused_variables)]
@@ -211,9 +212,7 @@ where
         iter
     }
 
-    pub fn into_iter(self) -> IntoIter<V> {
-        IntoIter(self)
-    }
+
 
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
     /// Modified
