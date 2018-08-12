@@ -51,7 +51,7 @@ where
     fn new(tree: BST<V>) -> BSTInOrderIntoIterator<V> {
         let mut iter = BSTInOrderIntoIterator { into_iter_stack : Vec::new() };
         iter.push_leftmost(tree);
-        return iter;
+        iter
     }
 
     fn push_leftmost(&mut self, mut tree: BST<V>) {
@@ -81,17 +81,17 @@ where
 
     fn next(&mut self) -> Option<V> {
          match self.into_iter_stack.pop() {
-             None => return None,
+             None => None,
              Some(mut tree) => {
                  if let Some(right_tree) = tree.take_right() {
                      self.push_leftmost(right_tree);
                  };
                  if let NonEmpty(node) = tree {
-                     return node.val;
+                     node.val
                  }
                  else
                  {
-                     return None;
+                     None
                  }
             },
         }
@@ -361,9 +361,9 @@ where
     ///taking the minimum of the two
     pub fn min_depth(& self) -> u64
     {
-        match self {
-            &Empty => 0,
-            &NonEmpty(ref n) => {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => {
                 match (&n.left, &n.right) {
                     (&Empty, &Empty) => 1,
                     (&Empty, &NonEmpty(_)) => n.right.min_depth() + 1,
@@ -381,9 +381,9 @@ where
     ///
     pub fn max_depth(& self) -> u64
     {
-        match self {
-            &Empty => 0,
-            &NonEmpty(ref n) => {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => {
                 match (&n.left, &n.right) {
                     (&Empty, &Empty) => 1,
                     (&Empty, &NonEmpty(_)) => {
@@ -427,14 +427,12 @@ where
                 if n.val == Some(val) {
                     Some(val)
                 }
-                    else {
-                        if  n.val > Some(val) {
-                            n.left.find(val)
-                        }
-                            else {
-                                n.right.find(val)
-                            }
-                    }
+                else if  n.val > Some(val) {
+                    n.left.find(val)
+                }
+                else {
+                    n.right.find(val)
+                }
             }
         }
     }
@@ -453,13 +451,11 @@ where
                 if n.val == Some(val) {
                     true
                 }
+                else if  n.val > Some(val) {
+                    n.left.contains(val)
+                }
                 else {
-                    if  n.val > Some(val) {
-                        n.left.contains(val)
-                    }
-                    else {
-                        n.right.contains(val)
-                    }
+                    n.right.contains(val)
                 }
             }
         }
@@ -822,7 +818,7 @@ fn take_right_test() {
 }
 
 #[test]
-fn min_depth_Test () {
+fn min_depth_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -839,7 +835,7 @@ fn min_depth_Test () {
 }
 
 #[test]
-fn max_depth_Test () {
+fn max_depth_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -856,7 +852,7 @@ fn max_depth_Test () {
 }
 
 #[test]
-fn size_Test () {
+fn size_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -872,7 +868,7 @@ fn size_Test () {
 }
 
 #[test]
-fn find_Test () {
+fn find_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
