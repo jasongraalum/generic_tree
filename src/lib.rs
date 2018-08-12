@@ -6,6 +6,7 @@
 use std::fmt::Debug;
 use self::BST::*;
 use std::mem;
+use std::cmp;
 //
 ///  Generic Search Tree
 ///
@@ -325,22 +326,116 @@ where
         }
     }
 
-    pub fn depth() -> u64 {
-        unimplemented!()
+    ///
+    ///Takes a reference to self and recursively explores left and right to find
+    ///taking the minimum of the two
+    pub fn min_depth(& self) -> u64
+    {
+        match self {
+            Empty => return 0,
+            NonEmpty(n) => {
+                match (&n.left, &n.right) {
+                    (Empty, Empty) => return 1,
+                    (Empty, NonEmpty(_)) => return n.right.min_depth() + 1,
+                    (NonEmpty(_), Empty) => return n.left.min_depth() + 1,
+
+                    _ => return cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
+                }
+            }
+        }
     }
 
-    pub fn size() -> u64 {
-        unimplemented!()
-    }
-    pub fn find() -> Option<&'a V> {
-        unimplemented!()
+    ///
+     ///Takes a reference to self and recursively explores left and right
+     ///always choosing branch with maximum depth.
+    pub fn max_depth(& self) -> u64
+    {
+        match self {
+            Empty => return 0,
+            NonEmpty(n) => {
+                match (&n.left, &n.right) {
+                    (Empty, Empty) => return 1,
+                    (Empty, NonEmpty(_)) => {
+                        println!("Current node: {:?}", n.val);
+                        return n.right.max_depth() + 1
+                    },
+
+                    (NonEmpty(_), Empty) => {
+                        println!("Current node: {:?}", n.val);
+                        return n.left.max_depth() + 1
+                    },
+
+                    _ => {
+                        println!("Current node: {:?}", n.val);
+                        return cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
+                    },
+                }
+            }
+        }
     }
 
-    pub fn contains() -> bool {
-        unimplemented!()
+    ///
+    /// returns size of tree
+    ///
+    pub fn size(& self) -> usize
+    {
+        self.iter_in_order().count()
     }
 
-    // Swap values of the current BST with the left node BST
+
+    ///
+    /// returns an option of generic type V. None or Some(V).
+    ///
+    pub fn find(& self, val: V ) -> Option<V>
+    {
+        match self {
+            Empty => {
+                return None;
+            },
+            NonEmpty(n) => {
+                if n.val == Some(val) {
+                    Some(val)
+                }
+                    else {
+                        if  n.val > Some(val) {
+                            n.left.find(val)
+                        }
+                            else {
+                                n.right.find(val)
+                            }
+                    }
+            }
+        }
+    }
+
+
+    ///
+    /// If tree contains generic type V. Returns true. Otherwise returns false.
+    ///
+    pub fn contains(& self, val: V) -> bool
+    {
+        match self {
+            Empty => {
+                false
+            },
+            NonEmpty(n) => {
+                if n.val == Some(val) {
+                    true
+                }
+                    else {
+                        if  n.val > Some(val) {
+                            n.left.contains(val)
+                        }
+                            else {
+                                n.right.contains(val)
+                            }
+                    }
+            }
+        }
+    }
+
+
+    // Swap values of the current BST with the right node BST
     // Return the current BST
     pub fn swap_right(&mut self) -> Option<&BST<V>> {
         let mut curr_val: Option<V> = None;
@@ -623,4 +718,101 @@ fn take_right_test() {
             assert_eq!(node, &left_node_vec.pop().unwrap());
         }
     }
+}
+
+#[test]
+fn min_depth_Test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(19);
+
+    assert_eq!(tree.min_depth(), 3);
+
+}
+
+#[test]
+fn max_depth_Test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(19);
+
+    assert_eq!(tree.max_depth(), 4);
+
+}
+
+#[test]
+fn size_Test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(19);
+
+    assert_eq!(tree.size(), 8);
+}
+
+#[test]
+fn find_Test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(25);
+
+    //left
+    assert_eq!(tree.find(1), Some(1));
+    //right
+    assert_eq!(tree.find(25), Some(25));
+    //middle
+    assert_eq!(tree.find(13), Some(13));
+
+    //None
+    assert_eq!(tree.find(50), None)
+}
+
+#[test]
+fn contains_test () {
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+    tree.insert(25);
+
+    //left
+    assert_eq!(tree.contains(1), true);
+    //right
+    assert_eq!(tree.contains(25), true);
+    //middle
+    assert_eq!(tree.contains(13), true);
+    //None
+    assert_eq!(tree.contains(50), false)
 }
