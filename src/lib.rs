@@ -3,6 +3,7 @@
 
 use std::fmt::Debug;
 use self::BST::*;
+use std::mem;
 //
 ///  Generic Search Tree
 ///
@@ -17,14 +18,16 @@ enum BST<V> {
 ///
 /// A BST is an implementation of a SearchTree
 struct BSTNode<V> {
-    val: V,
+    val: Option<V>,
     right : BST<V>,
     left : BST<V>,
     depth : usize,
 }
 
-///BinTreeIter
+pub struct IntoIter<V>(BST<V>);
+
 ///
+///BinTreeIter
 ///
 struct BSTPostIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
     iter_stack: Vec<(&'a BSTNode<V>, bool)>
@@ -33,7 +36,6 @@ struct BSTPostIter<'a, V: 'a> where V : Debug + Copy + Clone + Ord + PartialEq {
 impl <'a, V: 'a> BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord + PartialEq {
     fn push_leftmost_thenright (&mut self, mut tree: &'a BST<V>) {
         while let NonEmpty(ref node) = *tree {
-            println!("Tree: {:?}",node.val);
             self.iter_stack.push((node, false));
             // If left, set tree to left else if right, set tree to right
             match (&node.left, &node.right) {
@@ -44,7 +46,6 @@ impl <'a, V: 'a> BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord + Parti
     }
 
     fn push_node(&mut self, node : &'a BSTNode<V>) {
-        println!("Node: {:?}",node.val);
         self.iter_stack.push((node, true));
     }
 }
@@ -66,8 +67,10 @@ impl<'a, V> Iterator for BSTPostIter<'a, V> where V : Debug + Copy + Clone + Ord
             None => return None,
         }
 
-        println!("Popping: {:?}", &node.val);
-        Some(&node.val)
+        match &node.val {
+            &None => None,
+            &Some(ref v) => Some(&v)
+        }
     }
 }
 
@@ -108,7 +111,10 @@ impl<'a, V> Iterator for BSTPreIter<'a, V> where V : Debug + Copy + Clone + Ord 
             (_,_) => {},
         }
 
-        Some(&node.val)
+        match &node.val {
+            &None => None,
+            &Some(ref v) => Some(&v)
+        }
     }
 }
 
@@ -136,9 +142,13 @@ impl<'a, V> Iterator for BSTInOrderIter<'a, V> where V : Debug + Copy + Clone + 
 
         self.push_leftmost(&node.right);
 
-        Some(&node.val)
+        match &node.val {
+            &None => None,
+            &Some(ref v) => Some(&v)
+        }
     }
 }
+
 
 
 
@@ -151,43 +161,54 @@ impl <'a, V> BST <V>
         Empty
     }
 
-    fn iter_post_order(& self) -> BSTPostIter<V> {
+
+    pub fn iter_post_order(& self) -> BSTPostIter<V> {
         let mut iter = BSTPostIter { iter_stack: Vec::new()};
         iter.push_leftmost_thenright(self);
         iter
     }
 
     // Pushed reference to top node
-    fn iter_pre_order(& self) -> BSTPreIter<V> {
+    pub fn iter_pre_order(& self) -> BSTPreIter<V> {
         let mut iter = BSTPreIter { iter_stack: Vec::new()};
         iter.push_top(self);
         iter
     }
     // Pushed reference to top node
-    fn iter_in_order(& self) -> BSTInOrderIter<V> {
+    pub fn iter_in_order(& self) -> BSTInOrderIter<V> {
         let mut iter = BSTInOrderIter { iter_stack: Vec::new()};
         iter.push_leftmost(self);
         iter
     }
 
+    pub fn into_iter(self) -> IntoIter<V> {
+        IntoIter(self)
+    }
+
+
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
-    fn insert(&mut self, new_val: V) {
+    pub fn insert(&mut self, new_val: V) {
         match self {
             &mut Empty => {
-                let new_tree = NonEmpty(Box::new(BSTNode {left: Empty, right: Empty, val: new_val, depth: 1}));
+                let new_tree = NonEmpty(Box::new(BSTNode {left: Empty, right: Empty, val: Some(new_val), depth: 1}));
                 *self = new_tree;
             },
             &mut NonEmpty(ref mut n) => {
-                if n.val == new_val {
-                    return;
-                }
-                let target_subtree = if n.val > new_val { &mut n.left } else { &mut n.right };
-                match target_subtree {
-                    &mut NonEmpty (_) => target_subtree.insert(new_val),
-                    &mut Empty => {
-                        let boxed_node = NonEmpty(Box::new(BSTNode {left: Empty, right: Empty,  val: new_val, depth: 1}));
-                        *target_subtree = boxed_node;
-                    }
+                match n.val {
+                    None => return,
+                    Some(v) => {
+                        if v == new_val {
+                            return;
+                        }
+                        let target_subtree = if v > new_val { &mut n.left } else { &mut n.right };
+                        match target_subtree {
+                            &mut NonEmpty(_) => target_subtree.insert(new_val),
+                            &mut Empty => {
+                                let boxed_node = NonEmpty(Box::new(BSTNode { left: Empty, right: Empty, val: Some(new_val), depth: 1 }));
+                                *target_subtree = boxed_node;
+                            }
+                        }
+                    },
                 }
             }
         }
@@ -212,9 +233,73 @@ impl <'a, V> BST <V>
         unimplemented!()
     }
 
-    pub fn remove() -> bool
+    pub fn swap_right(&mut self) -> Option<&BST<V>>
     {
-        unimplemented!()
+        let mut curr_val: Option<V> = None;
+        let mut temp_val: Option<V> = None;
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                mem::swap(&mut curr_val, &mut node.val);
+            },
+        };
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                match &mut node.right {
+                    &mut Empty => return None,
+                    &mut NonEmpty(ref mut r) => {
+                        mem::swap(&mut temp_val, &mut r.val);
+                        mem::swap(&mut curr_val, &mut r.val);
+                    },
+                };
+            },
+        };
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                mem::swap(&mut temp_val, &mut node.val);
+            },
+        };
+
+        return Some(self);
+    }
+    pub fn swap_left(&mut self) -> Option<&BST<V>>
+    {
+        let mut curr_val: Option<V> = None;
+        let mut temp_val: Option<V> = None;
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                mem::swap(&mut curr_val, &mut node.val);
+            },
+        };
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                match &mut node.left {
+                    &mut Empty => return None,
+                    &mut NonEmpty(ref mut r) => {
+                        mem::swap(&mut temp_val, &mut r.val);
+                        mem::swap(&mut curr_val, &mut r.val);
+                    },
+                };
+            },
+        };
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                mem::swap(&mut temp_val, &mut node.val);
+            },
+        };
+
+        return Some(self);
     }
 
     pub fn merge(other_tree : BST<V>)
@@ -238,7 +323,12 @@ impl <'a, V> BST <V>
     fn peek(&self) -> Option<&V> {
         match self {
             &Empty => None, 
-            &NonEmpty(ref n) => Some(&n.val),
+            &NonEmpty(ref n) => {
+                match &n.val {
+                    &None => None,
+                    &Some(ref v) => Some(&v)
+                }
+            },
         }
     }
 
@@ -316,5 +406,47 @@ fn in_order_iterator_test (){
         for node in tree.iter_in_order() {
             assert_eq!(node, &node_vec.pop().unwrap());
         }
+    }
+}
+#[test]
+fn swap_right_test (){
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    let mut node_vec: Vec<i32> = vec![1,6,7,13,10,8,20];
+    let vec_reverse = node_vec.reverse();
+
+    tree.swap_right();
+
+    for node in tree.iter_in_order() {
+        assert_eq!(node, &node_vec.pop().unwrap());
+    }
+}
+#[test]
+fn swap_left_test (){
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    let mut node_vec: Vec<i32> = vec![1,8,7,6,10,13,20];
+    let vec_reverse = node_vec.reverse();
+
+    tree.swap_left();
+
+    for node in tree.iter_in_order() {
+        assert_eq!(node, &node_vec.pop().unwrap());
     }
 }
