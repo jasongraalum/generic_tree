@@ -7,7 +7,7 @@ use std::mem;
 //
 ///  Generic Search Tree
 ///
-
+#[allow(dead_code)]
 enum BST<V> {
     Empty,
     NonEmpty(Box<BSTNode<V>>),
@@ -16,6 +16,8 @@ enum BST<V> {
 ///
 ///
 /// A BST is an implementation of a SearchTree
+#[allow(unused_variables)]
+#[allow(dead_code)]
 struct BSTNode<V> {
     val: Option<V>,
     right: BST<V>,
@@ -174,7 +176,8 @@ where
 }
 
 //++++++++++++++++++++++++++++++++++IMPL-BST+++++++++++++++++++++++++++++++++++++
-
+#[allow(dead_code)]
+#[allow(unused_variables)]
 impl<'a, V> BST<V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -281,7 +284,7 @@ where
         match *self {
             Empty => return None,
             NonEmpty(ref mut node) => {
-                match *(&mut node.right) {
+                match node.right {
                     Empty => return None,
                     NonEmpty(ref mut r) => {
                         mem::swap(&mut temp_val, &mut r.val);
@@ -298,7 +301,7 @@ where
             }
         };
 
-        return Some(self);
+        Some(self)
     }
 
     pub fn swap_left(&mut self) -> Option<&BST<V>> {
@@ -315,7 +318,7 @@ where
         match *self {
             Empty => return None,
             NonEmpty(ref mut node) => {
-                match *(&mut node.left) {
+                match node.left {
                     Empty => return None,
                     NonEmpty(ref mut r) => {
                         mem::swap(&mut temp_val, &mut r.val);
@@ -332,12 +335,12 @@ where
             }
         };
 
-        return Some(self);
+        Some(self)
     }
 
     pub fn take_right(&mut self) -> Option<BST<V>> {
         match *self {
-            Empty => return None,
+            Empty => None,
             NonEmpty(ref mut tree) => {
                 let mut right: BST<V> = Empty;
                 mem::swap(&mut tree.right, &mut right);
@@ -348,7 +351,7 @@ where
 
     pub fn take_left(&mut self) -> Option<BST<V>> {
         match *self {
-            Empty => return None,
+            Empty => None,
             NonEmpty(ref mut tree) => {
                 let mut left: BST<V> = Empty;
                 mem::swap(&mut tree.left, &mut left);
