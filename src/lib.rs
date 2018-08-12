@@ -267,6 +267,7 @@ impl <'a, V> BST <V>
 
         return Some(self);
     }
+
     pub fn swap_left(&mut self) -> Option<&BST<V>>
     {
         let mut curr_val: Option<V> = None;
@@ -300,6 +301,32 @@ impl <'a, V> BST <V>
         };
 
         return Some(self);
+    }
+
+    pub fn take_right(&mut self) -> Option<BST<V>>
+    {
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut tree) => {
+                let mut right : BST<V> = Empty;
+                mem::swap(&mut tree.right, &mut right);
+                Some(right)
+            }
+        }
+
+    }
+
+    pub fn take_left(&mut self) -> Option<BST<V>>
+    {
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut tree) => {
+                let mut left : BST<V> = Empty;
+                mem::swap(&mut tree.left, &mut left);
+                Some(left)
+            }
+        }
+
     }
 
     pub fn merge(other_tree : BST<V>)
@@ -449,4 +476,63 @@ fn swap_left_test (){
     for node in tree.iter_in_order() {
         assert_eq!(node, &node_vec.pop().unwrap());
     }
+}
+
+#[test]
+fn take_left_test (){
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    let mut left_node_vec: Vec<i32> = vec![1,6,7];
+    let mut right_node_vec: Vec<i32> = vec![8,10,13,20];
+    let left_vec_reverse = left_node_vec.reverse();
+    let right_vec_reverse = right_node_vec.reverse();
+
+    if let Some(left_tree) = tree.take_left() {
+        for node in left_tree.iter_in_order() {
+            assert_eq!(node, &left_node_vec.pop().unwrap());
+        }
+        for node in tree.iter_in_order() {
+            assert_eq!(node, &right_node_vec.pop().unwrap());
+        }
+
+    }
+
+
+}
+#[test]
+fn take_right_test (){
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    let mut left_node_vec: Vec<i32> = vec![1,6,7,8];
+    let mut right_node_vec: Vec<i32> = vec![10,13,20];
+    let left_vec_reverse = left_node_vec.reverse();
+    let right_vec_reverse = right_node_vec.reverse();
+
+    if let Some(right_tree) = tree.take_right() {
+        for node in right_tree.iter_in_order() {
+            assert_eq!(node, &right_node_vec.pop().unwrap());
+        }
+        for node in tree.iter_in_order() {
+            assert_eq!(node, &left_node_vec.pop().unwrap());
+        }
+
+    }
+
+
 }
