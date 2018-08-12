@@ -32,6 +32,8 @@ struct BSTNode<V> {
 
 
 
+//++++++++++++++++++++++++++++++++++Iterators+++++++++++++++++++++++++++++++++++++
+
 struct BSTInOrderIntoIterator<V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -171,6 +173,10 @@ where
     }
 }
 
+
+///
+/// Pre order iteration of BST.
+///
 struct BSTPreIter<'a, V: 'a>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -225,6 +231,9 @@ where
     }
 }
 
+///
+/// In order iteration of BST.
+///
 struct BSTInOrderIter<'a, V: 'a>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -243,7 +252,10 @@ where
         }
     }
 }
-// Iterator for In-Order
+
+///
+/// Iterator for In-Order
+///
 impl<'a, V> Iterator for BSTInOrderIter<'a, V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
@@ -473,47 +485,47 @@ where
     ///
     /// Removes node containing specified value.
     ///
-    pub fn remove(&mut self, val: V) -> Option<V> {
-
-        match self {
-            Empty => {
-                return None;
-            },
-            NonEmpty(ref mut n) => {
-                if  n.val ==  Some(val) {
-                    match (n.right, n.left) {
-                        //no children
-                        (Empty, Empty) => {
-                            mem::replace( n,Empty);
-                        },
-                        //left child but not right child
-                        (NonEmpty(_), Empty) => {
-                            mem::replace(n, n.left);
-                        },
-                        //right child only, replace with right child
-                        (Empty, NonEmpty(_)) => {
-                            mem::replace(n, n.right);
-                        }
-                        //Two children
-                        (NonEmpty(_), NonEmpty(right_child)) => {
-                           //find value of min element of right child
-                            n.val = right_child.min_value();
-                            //remove that node from the right subtree.
-                            n.right.remove(n.val);
-                        }
-                    }
-
-                } else {
-                    if n.val > Some(val) {
-                        n.left.remove(val);
-                    } else {
-                        n.right.remove(val);
-                    }
-                }
-            }
-        }
-        return None;
-    }
+//    pub fn remove(&mut self, val: V) -> Option<V> {
+//
+//        match self {
+//            Empty => {
+//                return None;
+//            },
+//            NonEmpty(ref mut n) => {
+//                if  n.val ==  Some(val) {
+//                    match (n.right, n.left) {
+//                        //no children
+//                        (Empty, Empty) => {
+//                            mem::replace( n,Empty);
+//                        },
+//                        //left child but not right child
+//                        (NonEmpty(_), Empty) => {
+//                            mem::replace(n, n.left);
+//                        },
+//                        //right child only, replace with right child
+//                        (Empty, NonEmpty(_)) => {
+//                            mem::replace(n, n.right);
+//                        }
+//                        //Two children
+//                        (NonEmpty(_), NonEmpty(right_child)) => {
+//                           //find value of min element of right child
+//                            n.val = right_child.min_value();
+//                            //remove that node from the right subtree.
+//                            n.right.remove(n.val);
+//                        }
+//                    }
+//
+//                } else {
+//                    if n.val > Some(val) {
+//                        n.left.remove(val);
+//                    } else {
+//                        n.right.remove(val);
+//                    }
+//                }
+//            }
+//        }
+//        return None
+//    }
 
     // Swap values of the current BST with the right node BST
     // Return the current BST
@@ -576,6 +588,7 @@ where
         }
     }
 
+
     pub fn take_left(&mut self) -> Option<BST<V>> {
         match *self {
             Empty => None,
@@ -610,6 +623,8 @@ where
         }
     }
 }
+
+//++++++++++++++++++++++++++++++++++TEST+++++++++++++++++++++++++++++++++++++
 
 #[test]
 fn add_node() {
@@ -774,6 +789,11 @@ fn take_left_test() {
         }
     }
 }
+
+
+
+
+
 #[test]
 fn take_right_test() {
     let mut tree: BST<i32> = BST::new();

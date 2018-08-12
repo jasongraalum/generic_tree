@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Updated new funcs to take node a reference - to fix borrow checker errors.">
+      <change afterPath="$PROJECT_DIR$/src/README-Template.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -107,11 +108,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="lib.rs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lib.rs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/lib.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="473" column="14" selection-start-line="473" selection-start-column="8" selection-end-line="473" selection-end-column="14" />
+            <state relative-caret-position="9450">
+              <caret line="630" column="40" selection-start-line="630" selection-start-column="40" selection-end-line="630" selection-end-column="40" />
               <folding>
                 <element signature="e#2346#2347#0" expanded="true" />
                 <element signature="e#2394#2395#0" expanded="true" />
@@ -126,12 +127,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="README-Template.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/README-Template.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor />
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>&amp; mut</find>
       <find>push_lef</find>
+      <find>remove</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -218,11 +230,12 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/wip" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/wip" />
     </key>
   </component>
   <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
@@ -1259,7 +1272,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117020000" />
+    <option name="totallyTimeSpent" value="117920000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="153" y="23" width="1664" height="906" extended-state="0" />
@@ -1463,8 +1476,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="473" column="14" selection-start-line="473" selection-start-column="8" selection-end-line="473" selection-end-column="14" />
+        <state relative-caret-position="9450">
+          <caret line="630" column="40" selection-start-line="630" selection-start-column="40" selection-end-line="630" selection-end-column="40" />
           <folding>
             <element signature="e#2346#2347#0" expanded="true" />
             <element signature="e#2394#2395#0" expanded="true" />
@@ -1475,6 +1488,14 @@
             <element signature="e#10164#10165#0" expanded="true" />
             <element signature="e#10207#10208#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/README-Template.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
         </state>
       </provider>
     </entry>
