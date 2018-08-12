@@ -267,6 +267,40 @@ impl <'a, V> BST <V>
 
         return Some(self);
     }
+    pub fn swap_left(&mut self) -> Option<&BST<V>>
+    {
+        let mut curr_val: Option<V> = None;
+        let mut temp_val: Option<V> = None;
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                mem::swap(&mut curr_val, &mut node.val);
+            },
+        };
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                match &mut node.left {
+                    &mut Empty => return None,
+                    &mut NonEmpty(ref mut r) => {
+                        mem::swap(&mut temp_val, &mut r.val);
+                        mem::swap(&mut curr_val, &mut r.val);
+                    },
+                };
+            },
+        };
+
+        match self {
+            &mut Empty => return None,
+            &mut NonEmpty(ref mut node) => {
+                mem::swap(&mut temp_val, &mut node.val);
+            },
+        };
+
+        return Some(self);
+    }
 
     pub fn merge(other_tree : BST<V>)
     {
@@ -375,7 +409,7 @@ fn in_order_iterator_test (){
     }
 }
 #[test]
-fn swap_test (){
+fn swap_right_test (){
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -390,6 +424,27 @@ fn swap_test (){
     let vec_reverse = node_vec.reverse();
 
     tree.swap_right();
+
+    for node in tree.iter_in_order() {
+        assert_eq!(node, &node_vec.pop().unwrap());
+    }
+}
+#[test]
+fn swap_left_test (){
+    let mut tree : BST<i32> = BST::new();
+
+    tree.insert(8);
+    tree.insert(13);
+    tree.insert(6);
+    tree.insert(1);
+    tree.insert(20);
+    tree.insert(10);
+    tree.insert(7);
+
+    let mut node_vec: Vec<i32> = vec![1,8,7,6,10,13,20];
+    let vec_reverse = node_vec.reverse();
+
+    tree.swap_left();
 
     for node in tree.iter_in_order() {
         assert_eq!(node, &node_vec.pop().unwrap());
