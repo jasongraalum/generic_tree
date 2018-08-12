@@ -9,7 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value">
+    <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Ran rustfmt on lib.rs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
@@ -29,17 +29,31 @@
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/lib.rs">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="405">
-                    <caret line="504" selection-start-line="504" selection-end-line="504" />
+                  <state relative-caret-position="435">
+                    <caret line="359" column="11" selection-start-line="359" selection-start-column="11" selection-end-line="359" selection-end-column="11" />
                     <folding>
-                      <element signature="e#9160#9161#0" expanded="true" />
-                      <element signature="e#9191#9192#0" expanded="true" />
-                      <element signature="e#9226#9227#0" expanded="true" />
-                      <element signature="e#9257#9258#0" expanded="true" />
-                      <element signature="e#9293#9294#0" expanded="true" />
-                      <element signature="e#9324#9325#0" expanded="true" />
-                      <element signature="e#9359#9360#0" expanded="true" />
-                      <element signature="e#9390#9391#0" expanded="true" />
+                      <element signature="e#1163#1164#0" expanded="true" />
+                      <element signature="e#1213#1214#0" expanded="true" />
+                      <element signature="e#4339#4340#0" expanded="true" />
+                      <element signature="e#4359#4360#0" expanded="true" />
+                      <element signature="e#5057#5058#0" expanded="true" />
+                      <element signature="e#5086#5087#0" expanded="true" />
+                      <element signature="e#6537#6538#0" expanded="true" />
+                      <element signature="e#6568#6569#0" expanded="true" />
+                      <element signature="e#6596#6597#0" expanded="true" />
+                      <element signature="e#6627#6628#0" expanded="true" />
+                      <element signature="e#6664#6665#0" expanded="true" />
+                      <element signature="e#6695#6696#0" expanded="true" />
+                      <element signature="e#6728#6729#0" expanded="true" />
+                      <element signature="e#6759#6760#0" expanded="true" />
+                      <element signature="e#9404#9405#0" expanded="true" />
+                      <element signature="e#9435#9436#0" expanded="true" />
+                      <element signature="e#9466#9467#0" expanded="true" />
+                      <element signature="e#9497#9498#0" expanded="true" />
+                      <element signature="e#9529#9530#0" expanded="true" />
+                      <element signature="e#9560#9561#0" expanded="true" />
+                      <element signature="e#9591#9592#0" expanded="true" />
+                      <element signature="e#9622#9623#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -108,14 +122,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="rs" value="11958" />
-          <entry key="txt" value="265" />
+          <entry key="rs" value="12768" />
+          <entry key="txt" value="286" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="265" />
-          <entry key="Rust" value="11958" />
+          <entry key="PLAIN_TEXT" value="286" />
+          <entry key="Rust" value="12768" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -211,7 +225,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534037811626" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534037851832" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -360,7 +374,7 @@
       <workItem from="1533769699808" duration="597000" />
       <workItem from="1534007314779" duration="15782000" />
       <workItem from="1534028169287" duration="4991000" />
-      <workItem from="1534034850954" duration="2934000" />
+      <workItem from="1534034850954" duration="3471000" />
     </task>
     <task id="LOCAL-00001" summary="Check point - with use of new Trait&#10;&#10;New step is removing the Trait">
       <created>1532280363609</created>
@@ -474,11 +488,18 @@
       <option name="project" value="LOCAL" />
       <updated>1534037066472</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Ran rustfmt on lib.rs">
+      <created>1534037845554</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1534037845554</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112489000" />
+    <option name="totallyTimeSpent" value="113026000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1970" y="63" width="1814" height="1017" extended-state="0" />
@@ -545,7 +566,8 @@
     <MESSAGE value="Naming cleanup" />
     <MESSAGE value="Some simple clean up....remove println!'s etc." />
     <MESSAGE value="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added take_right and take_left functions to BST&lt;V&gt;&#10;&#10;These functions split the tree and return either the left or right sub-tree replacing it with an Empty value" />
+    <MESSAGE value="Ran rustfmt on lib.rs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ran rustfmt on lib.rs" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Cargo.toml">
@@ -571,17 +593,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="504" selection-start-line="504" selection-end-line="504" />
+        <state relative-caret-position="435">
+          <caret line="359" column="11" selection-start-line="359" selection-start-column="11" selection-end-line="359" selection-end-column="11" />
           <folding>
-            <element signature="e#9160#9161#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#9226#9227#0" expanded="true" />
-            <element signature="e#9257#9258#0" expanded="true" />
-            <element signature="e#9293#9294#0" expanded="true" />
-            <element signature="e#9324#9325#0" expanded="true" />
-            <element signature="e#9359#9360#0" expanded="true" />
-            <element signature="e#9390#9391#0" expanded="true" />
+            <element signature="e#1163#1164#0" expanded="true" />
+            <element signature="e#1213#1214#0" expanded="true" />
+            <element signature="e#4339#4340#0" expanded="true" />
+            <element signature="e#4359#4360#0" expanded="true" />
+            <element signature="e#5057#5058#0" expanded="true" />
+            <element signature="e#5086#5087#0" expanded="true" />
+            <element signature="e#6537#6538#0" expanded="true" />
+            <element signature="e#6568#6569#0" expanded="true" />
+            <element signature="e#6596#6597#0" expanded="true" />
+            <element signature="e#6627#6628#0" expanded="true" />
+            <element signature="e#6664#6665#0" expanded="true" />
+            <element signature="e#6695#6696#0" expanded="true" />
+            <element signature="e#6728#6729#0" expanded="true" />
+            <element signature="e#6759#6760#0" expanded="true" />
+            <element signature="e#9404#9405#0" expanded="true" />
+            <element signature="e#9435#9436#0" expanded="true" />
+            <element signature="e#9466#9467#0" expanded="true" />
+            <element signature="e#9497#9498#0" expanded="true" />
+            <element signature="e#9529#9530#0" expanded="true" />
+            <element signature="e#9560#9561#0" expanded="true" />
+            <element signature="e#9591#9592#0" expanded="true" />
+            <element signature="e#9622#9623#0" expanded="true" />
           </folding>
         </state>
       </provider>

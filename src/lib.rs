@@ -68,16 +68,16 @@ where
         match self.iter_stack.pop() {
             Some((n, v)) => {
                 self.push_node(&n);
-                if v == false {
+                if !v {
                     self.push_leftmost_thenright(&n.right);
                 }
             }
             None => return None,
         }
 
-        match &node.val {
-            &None => None,
-            &Some(ref v) => Some(&v),
+        match node.val {
+            None => None,
+            Some(ref v) => Some(&v),
         }
     }
 }
@@ -93,7 +93,7 @@ impl<'a, V: 'a> BSTPreIter<'a, V>
 where
     V: Debug + Copy + Clone + Ord + PartialEq,
 {
-    fn push_top(&mut self, mut tree: &'a BST<V>) {
+    fn push_top(&mut self, tree: &'a BST<V>) {
         if let NonEmpty(ref node) = *tree {
             self.iter_stack.push(node);
         }
@@ -126,9 +126,9 @@ where
             (_, _) => {}
         }
 
-        match &node.val {
-            &None => None,
-            &Some(ref v) => Some(&v),
+        match node.val {
+            None => None,
+            Some(ref v) => Some(&v),
         }
     }
 }
@@ -166,9 +166,9 @@ where
 
         self.push_leftmost(&node.right);
 
-        match &node.val {
-            &None => None,
-            &Some(ref v) => Some(&v),
+        match node.val {
+            None => None,
+            Some(ref v) => Some(&v),
         }
     }
 }
@@ -214,8 +214,8 @@ where
 
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
     pub fn insert(&mut self, new_val: V) {
-        match self {
-            &mut Empty => {
+        match *self {
+            Empty => {
                 let new_tree = NonEmpty(Box::new(BSTNode {
                     left: Empty,
                     right: Empty,
@@ -224,7 +224,7 @@ where
                 }));
                 *self = new_tree;
             }
-            &mut NonEmpty(ref mut n) => match n.val {
+            NonEmpty(ref mut n) => match n.val {
                 None => return,
                 Some(v) => {
                     if v == new_val {
@@ -235,9 +235,9 @@ where
                     } else {
                         &mut n.right
                     };
-                    match target_subtree {
-                        &mut NonEmpty(_) => target_subtree.insert(new_val),
-                        &mut Empty => {
+                    match *target_subtree {
+                        NonEmpty(_) => target_subtree.insert(new_val),
+                        Empty => {
                             let boxed_node = NonEmpty(Box::new(BSTNode {
                                 left: Empty,
                                 right: Empty,
@@ -271,19 +271,19 @@ where
         let mut curr_val: Option<V> = None;
         let mut temp_val: Option<V> = None;
 
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut node) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut node) => {
                 mem::swap(&mut curr_val, &mut node.val);
             }
         };
 
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut node) => {
-                match &mut node.right {
-                    &mut Empty => return None,
-                    &mut NonEmpty(ref mut r) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut node) => {
+                match *(&mut node.right) {
+                    Empty => return None,
+                    NonEmpty(ref mut r) => {
                         mem::swap(&mut temp_val, &mut r.val);
                         mem::swap(&mut curr_val, &mut r.val);
                     }
@@ -291,9 +291,9 @@ where
             }
         };
 
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut node) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut node) => {
                 mem::swap(&mut temp_val, &mut node.val);
             }
         };
@@ -305,19 +305,19 @@ where
         let mut curr_val: Option<V> = None;
         let mut temp_val: Option<V> = None;
 
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut node) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut node) => {
                 mem::swap(&mut curr_val, &mut node.val);
             }
         };
 
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut node) => {
-                match &mut node.left {
-                    &mut Empty => return None,
-                    &mut NonEmpty(ref mut r) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut node) => {
+                match *(&mut node.left) {
+                    Empty => return None,
+                    NonEmpty(ref mut r) => {
                         mem::swap(&mut temp_val, &mut r.val);
                         mem::swap(&mut curr_val, &mut r.val);
                     }
@@ -325,9 +325,9 @@ where
             }
         };
 
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut node) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut node) => {
                 mem::swap(&mut temp_val, &mut node.val);
             }
         };
@@ -336,9 +336,9 @@ where
     }
 
     pub fn take_right(&mut self) -> Option<BST<V>> {
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut tree) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut tree) => {
                 let mut right: BST<V> = Empty;
                 mem::swap(&mut tree.right, &mut right);
                 Some(right)
@@ -347,9 +347,9 @@ where
     }
 
     pub fn take_left(&mut self) -> Option<BST<V>> {
-        match self {
-            &mut Empty => return None,
-            &mut NonEmpty(ref mut tree) => {
+        match *self {
+            Empty => return None,
+            NonEmpty(ref mut tree) => {
                 let mut left: BST<V> = Empty;
                 mem::swap(&mut tree.left, &mut left);
                 Some(left)
@@ -372,11 +372,11 @@ where
     }
 
     fn peek(&self) -> Option<&V> {
-        match self {
-            &Empty => None,
-            &NonEmpty(ref n) => match &n.val {
-                &None => None,
-                &Some(ref v) => Some(&v),
+        match *self {
+            Empty => None,
+            NonEmpty(ref n) => match n.val {
+                None => None,
+                Some(ref v) => Some(&v),
             },
         }
     }
