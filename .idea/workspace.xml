@@ -22,11 +22,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+
   <component name="FUSProjectUsageTrigger">
     <session id="-813778101">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.20" value="1" />
@@ -219,6 +220,7 @@
       </MavenGeneralSettings>
     </option>
   </component>
+ value="777" />
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
