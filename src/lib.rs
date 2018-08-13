@@ -477,7 +477,6 @@ where
         }
     }
 
-
     // Swap values of the current BST with the right node BST
     // Return the current BST
     pub fn swap_right(&mut self) -> Option<&BST<V>> {
@@ -773,7 +772,7 @@ fn take_right_test() {
 }
 
 #[test]
-fn min_depth_test () {
+fn min_depth_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -790,7 +789,7 @@ fn min_depth_test () {
 }
 
 #[test]
-fn height_Test () {
+fn max_depth_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -807,7 +806,7 @@ fn height_Test () {
 }
 
 #[test]
-fn size_test () {
+fn size_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -823,7 +822,7 @@ fn size_test () {
 }
 
 #[test]
-fn find_test () {
+fn find_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);

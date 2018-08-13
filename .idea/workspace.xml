@@ -10,7 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67c4b679-7309-4b9f-98c7-5a7f8328f7e5" name="Default" comment="Updated new funcs to take node a reference - to fix borrow checker errors.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/README-Template.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/README-Template.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
     </list>
@@ -108,14 +107,14 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3994911">
+    <splitter split-orientation="horizontal" split-proportion="0.29198474">
       <split-first>
         <leaf>
           <file leaf-file-name="lib.rs" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/lib.rs">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1981">
-                  <caret line="493" column="22" lean-forward="true" selection-start-line="493" selection-start-column="22" selection-end-line="493" selection-end-column="22" />
+                <state>
+                  <caret line="485" column="5" selection-start-line="485" selection-start-column="5" selection-end-line="485" selection-end-column="5" />
                   <folding>
                     <element signature="e#2430#2431#0" expanded="true" />
                     <element signature="e#2478#2479#0" expanded="true" />
@@ -162,8 +161,8 @@
             <entry file="file://$PROJECT_DIR$/src/README-Template.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
                 <state split_layout="SPLIT">
-                  <first_editor relative-caret-position="521">
-                    <caret line="60" selection-start-line="60" selection-end-line="60" />
+                  <first_editor relative-caret-position="120">
+                    <caret line="8" column="60" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="60" />
                   </first_editor>
                   <second_editor />
                 </state>
@@ -5179,7 +5178,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="125086000" />
+    <option name="totallyTimeSpent" value="125293000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
@@ -5188,11 +5187,11 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1629393" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Cargo" order="5" weight="0.32932332" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.34824282" side_tool="true" visible="true" weight="0.34925374" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6517572" visible="true" weight="0.34925374" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5063898" side_tool="true" visible="true" weight="0.43383086" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6517572" weight="0.34925374" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.42040184" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4941427" weight="0.14527363" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49361023" weight="0.43383086" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="right" id="Palette" order="3" />
@@ -5263,6 +5262,11 @@
     <MESSAGE value="Optimized the swap_left and swap_right functions." />
     <MESSAGE value="Updated new funcs to take node a reference - to fix borrow checker errors." />
     <option name="LAST_COMMIT_MESSAGE" value="Updated new funcs to take node a reference - to fix borrow checker errors." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Cargo.toml">
@@ -5597,20 +5601,10 @@
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/README-Template.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="521">
-            <caret line="60" selection-start-line="60" selection-end-line="60" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/lib.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1981">
-          <caret line="493" column="22" lean-forward="true" selection-start-line="493" selection-start-column="22" selection-end-line="493" selection-end-column="22" />
+        <state relative-caret-position="-1">
+          <caret line="145" column="1" selection-start-line="145" selection-start-column="1" selection-end-line="145" selection-end-column="1" />
           <folding>
             <element signature="e#2430#2431#0" expanded="true" />
             <element signature="e#2478#2479#0" expanded="true" />
@@ -5621,6 +5615,16 @@
             <element signature="e#10338#10339#0" expanded="true" />
             <element signature="e#10381#10382#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/README-Template.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="60" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="60" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

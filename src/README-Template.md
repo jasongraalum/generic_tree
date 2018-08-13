@@ -7,7 +7,6 @@ Our first, (and most likely final) version is an implementation for a generic bi
 - iter_pre_order()
 - iter_post_order()
 - insert(val: V):                   Inserts BSTNode into BST
-- remove(val: V) -> option<V>:      Removes Node by data value
 - min_depth() -> u64:               Gets depth of the last full row
 - height() -> u64:                  Gets height of tree.
 - size() -> usize
