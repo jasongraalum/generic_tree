@@ -51,7 +51,7 @@ where
     fn new(tree: BST<V>) -> BSTInOrderIntoIterator<V> {
         let mut iter = BSTInOrderIntoIterator { into_iter_stack : Vec::new() };
         iter.push_leftmost(tree);
-        return iter;
+        iter
     }
 
     fn push_leftmost(&mut self, mut tree: BST<V>) {
@@ -81,17 +81,17 @@ where
 
     fn next(&mut self) -> Option<V> {
          match self.into_iter_stack.pop() {
-             None => return None,
+             None => None,
              Some(mut tree) => {
                  if let Some(right_tree) = tree.take_right() {
                      self.push_leftmost(right_tree);
                  };
                  if let NonEmpty(node) = tree {
-                     return node.val;
+                     node.val
                  }
                  else
                  {
-                     return None;
+                     None
                  }
             },
         }
@@ -315,7 +315,6 @@ where
         iter
     }
 
-    /// method
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
     /// Modified
     pub fn insert(&mut self, new_val: V) {
@@ -363,15 +362,15 @@ where
     ///
     pub fn min_depth(& self) -> u64
     {
-        match self {
-            &Empty => return 0,
-            &NonEmpty(ref n) => {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => {
                 match (&n.left, &n.right) {
-                    (&Empty, &Empty) => return 1,
-                    (&Empty, &NonEmpty(_)) => return n.right.min_depth() + 1,
-                    (&NonEmpty(_), &Empty) => return n.left.min_depth() + 1,
+                    (&Empty, &Empty) => 1,
+                    (&Empty, &NonEmpty(_)) => n.right.min_depth() + 1,
+                    (&NonEmpty(_), &Empty) => n.left.min_depth() + 1,
 
-                    _ => return cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
+                    _ => cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
                 }
             }
         }
@@ -383,11 +382,11 @@ where
     ///
     pub fn height(& self) -> u64
     {
-        match self {
-            &Empty => return 0,
-            &NonEmpty(ref n) => {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => {
                 match (&n.left, &n.right) {
-                    (&Empty, &Empty) => return 1,
+                    (&Empty, &Empty) => 1,
                     (&Empty, &NonEmpty(_)) => {
                         println!("Current node: {:?}", n.val);
                         return n.right.height() + 1
@@ -421,22 +420,20 @@ where
     ///
     pub fn find(& self, val: V ) -> Option<V>
     {
-        match self {
-            &Empty => {
-                return None;
+        match *self {
+            Empty => {
+                None
             },
-            &NonEmpty(ref n) => {
+            NonEmpty(ref n) => {
                 if n.val == Some(val) {
                     Some(val)
                 }
-                    else {
-                        if  n.val > Some(val) {
-                            n.left.find(val)
-                        }
-                            else {
-                                n.right.find(val)
-                            }
-                    }
+                else if  n.val > Some(val) {
+                    n.left.find(val)
+                }
+                else {
+                    n.right.find(val)
+                }
             }
         }
     }
@@ -446,21 +443,19 @@ where
     ///
     pub fn contains(&self, val: V) -> bool
     {
-        match self {
-            &Empty => {
+        match *self {
+            Empty => {
                 false
             },
-            &NonEmpty(ref n) => {
+            NonEmpty(ref n) => {
                 if n.val == Some(val) {
                     true
                 }
+                else if  n.val > Some(val) {
+                    n.left.contains(val)
+                }
                 else {
-                    if  n.val > Some(val) {
-                        n.left.contains(val)
-                    }
-                    else {
-                        n.right.contains(val)
-                    }
+                    n.right.contains(val)
                 }
             }
         }
@@ -470,66 +465,18 @@ where
     ///
     /// Returns tree's minimum value
     ///
-    pub fn remove_value(& self) -> Option<V> {
-        match self {
+    pub fn min_value (& self) -> Option<V> {
+        match *self {
             Empty => None,
-            NonEmpty(n) => {
+            NonEmpty(ref n) => {
                 match n.left {
                     Empty => n.val,
-                    NonEmpty(v) => {
-                        v.swap_left();
-                        n.left.remove_value()
-                    },
+                    NonEmpty(_) => n.left.min_value(),
                 }
             },
         }
     }
 
-
-    ///
-    /// Removes node containing specified value.
-    ///
-//    pub fn remove(&mut self, val: V) -> Option<V> {
-//
-//        match self {
-//            &mut Empty => {
-//                return None;
-//            },
-//            &mut NonEmpty(mut n) => {
-//                if  n.val ==  Some(val) {
-//                    match (n.right, n.left) {
-//                        //no children
-//                        (Empty, Empty) => {
-//                            n.take_left();
-//                        },
-//                        //left child but not right child
-//                        (NonEmpty(_), Empty) => {
-//                            n.take_left;
-//                        },
-//                        //right child only, replace with right child
-//                        (Empty, NonEmpty(_)) => {
-//                            n.take_right
-//                        }
-//                        //Two children
-//                        (NonEmpty(_), NonEmpty(right_child)) => {
-//                           //find value of min element of right child
-//                            n.val = right_child.min_value();
-//                            //remove that node from the right subtree.
-//                            n.right.remove(n.val);
-//                        }
-//                    }
-//
-//                } else {
-//                    if n.val > Some(val) {
-//                        n.left.remove(val);
-//                    } else {
-//                        n.right.remove(val);
-//                    }
-//                }
-//            }
-//        }
-//        return None
-//    }
 
     // Swap values of the current BST with the right node BST
     // Return the current BST
@@ -826,7 +773,7 @@ fn take_right_test() {
 }
 
 #[test]
-fn min_depth_Test () {
+fn min_depth_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -843,7 +790,7 @@ fn min_depth_Test () {
 }
 
 #[test]
-fn max_depth_Test () {
+fn height_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -860,7 +807,7 @@ fn max_depth_Test () {
 }
 
 #[test]
-fn size_Test () {
+fn size_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -876,7 +823,7 @@ fn size_Test () {
 }
 
 #[test]
-fn find_Test () {
+fn find_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -972,6 +919,6 @@ fn min_value_test () {
     tree.insert(25);
 
     //left
-    assert_eq!(tree.remove_value(), Some(1));
+    assert_eq!(tree.min_value(), Some(1));
 
 }
