@@ -51,7 +51,7 @@ where
     fn new(tree: BST<V>) -> BSTInOrderIntoIterator<V> {
         let mut iter = BSTInOrderIntoIterator { into_iter_stack : Vec::new() };
         iter.push_leftmost(tree);
-        return iter;
+        iter
     }
 
     fn push_leftmost(&mut self, mut tree: BST<V>) {
@@ -81,17 +81,17 @@ where
 
     fn next(&mut self) -> Option<V> {
          match self.into_iter_stack.pop() {
-             None => return None,
+             None => None,
              Some(mut tree) => {
                  if let Some(right_tree) = tree.take_right() {
                      self.push_leftmost(right_tree);
                  };
                  if let NonEmpty(node) = tree {
-                     return node.val;
+                     node.val
                  }
                  else
                  {
-                     return None;
+                     None
                  }
             },
         }
@@ -361,15 +361,15 @@ where
     ///taking the minimum of the two
     pub fn min_depth(& self) -> u64
     {
-        match self {
-            &Empty => return 0,
-            &NonEmpty(ref n) => {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => {
                 match (&n.left, &n.right) {
-                    (&Empty, &Empty) => return 1,
-                    (&Empty, &NonEmpty(_)) => return n.right.min_depth() + 1,
-                    (&NonEmpty(_), &Empty) => return n.left.min_depth() + 1,
+                    (&Empty, &Empty) => 1,
+                    (&Empty, &NonEmpty(_)) => n.right.min_depth() + 1,
+                    (&NonEmpty(_), &Empty) => n.left.min_depth() + 1,
 
-                    _ => return cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
+                    _ => cmp::min(n.right.min_depth(), n.left.min_depth()) + 1,
                 }
             }
         }
@@ -381,24 +381,24 @@ where
     ///
     pub fn max_depth(& self) -> u64
     {
-        match self {
-            &Empty => return 0,
-            &NonEmpty(ref n) => {
+        match *self {
+            Empty => 0,
+            NonEmpty(ref n) => {
                 match (&n.left, &n.right) {
-                    (&Empty, &Empty) => return 1,
+                    (&Empty, &Empty) => 1,
                     (&Empty, &NonEmpty(_)) => {
                         println!("Current node: {:?}", n.val);
-                        return n.right.max_depth() + 1
+                        n.right.max_depth() + 1
                     },
 
                     (&NonEmpty(_), &Empty) => {
                         println!("Current node: {:?}", n.val);
-                        return n.left.max_depth() + 1
+                        n.left.max_depth() + 1
                     },
 
                     _ => {
                         println!("Current node: {:?}", n.val);
-                        return cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
+                        cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
                     },
                 }
             }
@@ -419,22 +419,20 @@ where
     ///
     pub fn find(& self, val: V ) -> Option<V>
     {
-        match self {
-            &Empty => {
-                return None;
+        match *self {
+            Empty => {
+                None
             },
-            &NonEmpty(ref n) => {
+            NonEmpty(ref n) => {
                 if n.val == Some(val) {
                     Some(val)
                 }
-                    else {
-                        if  n.val > Some(val) {
-                            n.left.find(val)
-                        }
-                            else {
-                                n.right.find(val)
-                            }
-                    }
+                else if  n.val > Some(val) {
+                    n.left.find(val)
+                }
+                else {
+                    n.right.find(val)
+                }
             }
         }
     }
@@ -445,21 +443,19 @@ where
     ///
     pub fn contains(&self, val: V) -> bool
     {
-        match self {
-            &Empty => {
+        match *self {
+            Empty => {
                 false
             },
-            &NonEmpty(ref n) => {
+            NonEmpty(ref n) => {
                 if n.val == Some(val) {
                     true
                 }
+                else if  n.val > Some(val) {
+                    n.left.contains(val)
+                }
                 else {
-                    if  n.val > Some(val) {
-                        n.left.contains(val)
-                    }
-                    else {
-                        n.right.contains(val)
-                    }
+                    n.right.contains(val)
                 }
             }
         }
@@ -470,9 +466,9 @@ where
     /// Returns tree's minimum value
     ///
     pub fn min_value (& self) -> Option<V> {
-        match self {
+        match *self {
             Empty => None,
-            NonEmpty(n) => {
+            NonEmpty(ref n) => {
                 match n.left {
                     Empty => n.val,
                     NonEmpty(_) => n.left.min_value(),
@@ -822,7 +818,7 @@ fn take_right_test() {
 }
 
 #[test]
-fn min_depth_Test () {
+fn min_depth_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -839,7 +835,7 @@ fn min_depth_Test () {
 }
 
 #[test]
-fn max_depth_Test () {
+fn max_depth_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -856,7 +852,7 @@ fn max_depth_Test () {
 }
 
 #[test]
-fn size_Test () {
+fn size_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -872,7 +868,7 @@ fn size_Test () {
 }
 
 #[test]
-fn find_Test () {
+fn find_test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
