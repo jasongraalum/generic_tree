@@ -69,7 +69,7 @@ where
     }
 }
 
-///
+
 /// Iterator for In-Order
 ///
 impl<V> Iterator for BSTInOrderIntoIterator<V>
@@ -357,8 +357,9 @@ where
     }
 
     ///
-    ///Takes a reference to self and recursively explores left and right to find
-    ///taking the minimum of the two
+    /// Takes a reference to self and recursively explores left and right to find
+    /// taking the minimum of the two
+    ///
     pub fn min_depth(& self) -> u64
     {
         match *self {
@@ -379,7 +380,7 @@ where
     ///Takes a reference to self and recursively explores left and right
     ///always choosing branch with maximum depth.
     ///
-    pub fn max_depth(& self) -> u64
+    pub fn height(& self) -> u64
     {
         match *self {
             Empty => 0,
@@ -388,17 +389,17 @@ where
                     (&Empty, &Empty) => 1,
                     (&Empty, &NonEmpty(_)) => {
                         println!("Current node: {:?}", n.val);
-                        n.right.max_depth() + 1
+                        return n.right.height() + 1
                     },
 
                     (&NonEmpty(_), &Empty) => {
                         println!("Current node: {:?}", n.val);
-                        n.left.max_depth() + 1
+                        return n.left.height() + 1
                     },
 
                     _ => {
                         println!("Current node: {:?}", n.val);
-                        cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
+                        return cmp::max(n.left.height(), n.right.height()) + 1
                     },
                 }
             }
@@ -436,7 +437,6 @@ where
             }
         }
     }
-
 
     ///
     /// If tree contains generic type V. Returns true. Otherwise returns false.
@@ -476,52 +476,6 @@ where
             },
         }
     }
-
-
-    ///
-    /// Removes node containing specified value.
-    ///
-//    pub fn remove(&mut self, val: V) -> Option<V> {
-//
-//        match self {
-//            Empty => {
-//                return None;
-//            },
-//            NonEmpty(ref mut n) => {
-//                if  n.val ==  Some(val) {
-//                    match (n.right, n.left) {
-//                        //no children
-//                        (Empty, Empty) => {
-//                            mem::replace( n,Empty);
-//                        },
-//                        //left child but not right child
-//                        (NonEmpty(_), Empty) => {
-//                            mem::replace(n, n.left);
-//                        },
-//                        //right child only, replace with right child
-//                        (Empty, NonEmpty(_)) => {
-//                            mem::replace(n, n.right);
-//                        }
-//                        //Two children
-//                        (NonEmpty(_), NonEmpty(right_child)) => {
-//                           //find value of min element of right child
-//                            n.val = right_child.min_value();
-//                            //remove that node from the right subtree.
-//                            n.right.remove(n.val);
-//                        }
-//                    }
-//
-//                } else {
-//                    if n.val > Some(val) {
-//                        n.left.remove(val);
-//                    } else {
-//                        n.right.remove(val);
-//                    }
-//                }
-//            }
-//        }
-//        return None
-//    }
 
     // Swap values of the current BST with the right node BST
     // Return the current BST
@@ -818,7 +772,7 @@ fn take_right_test() {
 }
 
 #[test]
-fn min_depth_test () {
+fn min_depth_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -835,7 +789,7 @@ fn min_depth_test () {
 }
 
 #[test]
-fn max_depth_test () {
+fn max_depth_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -847,12 +801,12 @@ fn max_depth_test () {
     tree.insert(7);
     tree.insert(19);
 
-    assert_eq!(tree.max_depth(), 4);
+    assert_eq!(tree.height(), 4);
 
 }
 
 #[test]
-fn size_test () {
+fn size_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
@@ -868,7 +822,7 @@ fn size_test () {
 }
 
 #[test]
-fn find_test () {
+fn find_Test () {
     let mut tree : BST<i32> = BST::new();
 
     tree.insert(8);
