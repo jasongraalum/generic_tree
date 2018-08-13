@@ -69,7 +69,7 @@ where
     }
 }
 
-///
+
 /// Iterator for In-Order
 ///
 impl<V> Iterator for BSTInOrderIntoIterator<V>
@@ -315,6 +315,7 @@ where
         iter
     }
 
+    /// method
     /// https://gist.github.com/aidanhs  Binary Search Tree Tutorial
     /// Modified
     pub fn insert(&mut self, new_val: V) {
@@ -357,8 +358,9 @@ where
     }
 
     ///
-    ///Takes a reference to self and recursively explores left and right to find
-    ///taking the minimum of the two
+    /// Takes a reference to self and recursively explores left and right to find
+    /// taking the minimum of the two
+    ///
     pub fn min_depth(& self) -> u64
     {
         match self {
@@ -379,7 +381,7 @@ where
     ///Takes a reference to self and recursively explores left and right
     ///always choosing branch with maximum depth.
     ///
-    pub fn max_depth(& self) -> u64
+    pub fn height(& self) -> u64
     {
         match self {
             &Empty => return 0,
@@ -388,17 +390,17 @@ where
                     (&Empty, &Empty) => return 1,
                     (&Empty, &NonEmpty(_)) => {
                         println!("Current node: {:?}", n.val);
-                        return n.right.max_depth() + 1
+                        return n.right.height() + 1
                     },
 
                     (&NonEmpty(_), &Empty) => {
                         println!("Current node: {:?}", n.val);
-                        return n.left.max_depth() + 1
+                        return n.left.height() + 1
                     },
 
                     _ => {
                         println!("Current node: {:?}", n.val);
-                        return cmp::max(n.left.max_depth(), n.right.max_depth()) + 1
+                        return cmp::max(n.left.height(), n.right.height()) + 1
                     },
                 }
             }
@@ -439,7 +441,6 @@ where
         }
     }
 
-
     ///
     /// If tree contains generic type V. Returns true. Otherwise returns false.
     ///
@@ -469,13 +470,16 @@ where
     ///
     /// Returns tree's minimum value
     ///
-    pub fn min_value (& self) -> Option<V> {
+    pub fn remove_value(& self) -> Option<V> {
         match self {
             Empty => None,
             NonEmpty(n) => {
                 match n.left {
                     Empty => n.val,
-                    NonEmpty(_) => n.left.min_value(),
+                    NonEmpty(v) => {
+                        v.swap_left();
+                        n.left.remove_value()
+                    },
                 }
             },
         }
@@ -485,47 +489,47 @@ where
     ///
     /// Removes node containing specified value.
     ///
-    pub fn remove(mut self, val: V) -> Option<V> {
-
-        match self {
-            Empty => {
-                return None;
-            },
-            NonEmpty(mut n) => {
-                if  n.val ==  Some(val) {
-                    match (n.right, n.left) {
-                        //no children
-                        (Empty, Empty) => {
-                            mem::replace( n,Empty);
-                        },
-                        //left child but not right child
-                        (NonEmpty(_), Empty) => {
-                            mem::replace(n, n.left);
-                        },
-                        //right child only, replace with right child
-                        (Empty, NonEmpty(_)) => {
-                            mem::replace(n, n.right);
-                        }
-                        //Two children
-                        (NonEmpty(_), NonEmpty(right_child)) => {
-                           //find value of min element of right child
-                            n.val = right_child.min_value();
-                            //remove that node from the right subtree.
-                            n.right.remove(n.val);
-                        }
-                    }
-
-                } else {
-                    if n.val > Some(val) {
-                        n.left.remove(val);
-                    } else {
-                        n.right.remove(val);
-                    }
-                }
-            }
-        }
-        return None
-    }
+//    pub fn remove(&mut self, val: V) -> Option<V> {
+//
+//        match self {
+//            &mut Empty => {
+//                return None;
+//            },
+//            &mut NonEmpty(mut n) => {
+//                if  n.val ==  Some(val) {
+//                    match (n.right, n.left) {
+//                        //no children
+//                        (Empty, Empty) => {
+//                            n.take_left();
+//                        },
+//                        //left child but not right child
+//                        (NonEmpty(_), Empty) => {
+//                            n.take_left;
+//                        },
+//                        //right child only, replace with right child
+//                        (Empty, NonEmpty(_)) => {
+//                            n.take_right
+//                        }
+//                        //Two children
+//                        (NonEmpty(_), NonEmpty(right_child)) => {
+//                           //find value of min element of right child
+//                            n.val = right_child.min_value();
+//                            //remove that node from the right subtree.
+//                            n.right.remove(n.val);
+//                        }
+//                    }
+//
+//                } else {
+//                    if n.val > Some(val) {
+//                        n.left.remove(val);
+//                    } else {
+//                        n.right.remove(val);
+//                    }
+//                }
+//            }
+//        }
+//        return None
+//    }
 
     // Swap values of the current BST with the right node BST
     // Return the current BST
@@ -851,7 +855,7 @@ fn max_depth_Test () {
     tree.insert(7);
     tree.insert(19);
 
-    assert_eq!(tree.max_depth(), 4);
+    assert_eq!(tree.height(), 4);
 
 }
 
@@ -968,6 +972,6 @@ fn min_value_test () {
     tree.insert(25);
 
     //left
-    assert_eq!(tree.min_value(), Some(1));
+    assert_eq!(tree.remove_value(), Some(1));
 
 }
