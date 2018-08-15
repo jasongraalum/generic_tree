@@ -27,8 +27,9 @@ Our first, (and most likely final) version is an implementation for a generic bi
 
 ## Getting Started
 - Go to https://github.com/jasongraalum/generic_tree.
-- Copy and paste the contents of src/lib.rs into your rust project.
-- Try it out.
+- Read this documentation and review examples directory
+- Clone this repo and try out the examples
+- Include this crate in your Cargo.toml(see below)
 
 ### Prerequisites
 - rustc version 1.27.0 or greater
