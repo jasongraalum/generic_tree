@@ -1,5 +1,9 @@
 # Generic Tree in Rust
 
+### Copyright (c) 2018 Jason Graalum and Nathan Reed
+
+# Purpose
+
 Our original goal was to create a more general framework that could be used for multiple types of trees. This turned out to be too large of a task for the scope of our project since we could not figure how to accomplish this without implementing a separate generic tree for each tree type.
 Our first, (and most likely final) version is an implementation for a generic binary search tree.  Generic tree currently implements rust standard iterators, iter() and into_iter() for pre_order, in_order and post_order traversal. Other methods include: 
 - iter()
@@ -31,23 +35,14 @@ Our first, (and most likely final) version is an implementation for a generic bi
 -- https://www.rust-lang.org/en-US/install.html
 
 
-### Installing
+### Installation and Deployment
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+This crate can be installed and used by any Rust project by adding an entry to the project Cargo.toml file:
 
 ```
-Give the example
+[dependencies]
+generic_tree = { git = "https://github.com/jasongraalum/generic_tree" }
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
@@ -55,25 +50,6 @@ End with an example of getting some data out of the system or using it for a lit
 - Enter 'cargo build' on the command line
 - Enter 'cargo test' to run the tests
 
-### Break down into end to end tests
-
-
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
@@ -97,5 +73,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Special thanks to Learning Rust With Entirely Too Many Linked Lists: http://cglab.ca/~abeinges/blah/too-many-lists/book/ for helping us understand working with iterators a little better.
-c
+
 
